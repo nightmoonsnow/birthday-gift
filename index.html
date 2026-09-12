@@ -75,20 +75,6 @@
       z-index: 2;
     }
 
-    /* 頂部小字註解 (Ruby Annotation) 美化設定：確保向上浮動不擠壓行高 */
-    ruby {
-      ruby-align: center;
-      ruby-position: over;
-    }
-    rt {
-      font-size: 0.52em;
-      color: #ffd700;
-      letter-spacing: 1.5px;
-      font-weight: 500;
-      transform: translateY(-4px);
-      display: inline-block;
-    }
-
     .text-screen {
       font-size: clamp(0.95rem, 2.8vw, 1.08rem);
       line-height: 2.1;
@@ -148,20 +134,8 @@
       width: clamp(28px, 5.2vw, 36px);
       height: 100%;
       transform: translateX(-50%);
-      background: linear-gradient(90deg, 
-        #6293b4 0%, 
-        #9dc8e9 16%, 
-        #e3f3fe 40%, 
-        #ffffff 50%, 
-        #e3f3fe 60%, 
-        #9dc8e9 84%, 
-        #6293b4 100%
-      );
-      box-shadow: 
-        0 0 16px rgba(0, 0, 0, 0.95),
-        -6px 0 14px rgba(0, 0, 0, 0.85),
-        6px 0 14px rgba(0, 0, 0, 0.85),
-        0 0 5px rgba(255, 255, 255, 0.4);
+      background: linear-gradient(90deg, #6293b4 0%, #9dc8e9 16%, #e3f3fe 40%, #ffffff 50%, #e3f3fe 60%, #9dc8e9 84%, #6293b4 100%);
+      box-shadow: 0 0 16px rgba(0, 0, 0, 0.95), -6px 0 14px rgba(0, 0, 0, 0.85), 6px 0 14px rgba(0, 0, 0, 0.85), 0 0 5px rgba(255, 255, 255, 0.4);
       transition: top 0.7s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.7s ease;
       z-index: 2;
     }
@@ -173,25 +147,12 @@
       width: 100%;
       height: clamp(28px, 5.2vw, 36px);
       transform: translateY(-50%);
-      background: linear-gradient(180deg, 
-        #6293b4 0%, 
-        #9dc8e9 16%, 
-        #e3f3fe 40%, 
-        #ffffff 50%, 
-        #e3f3fe 60%, 
-        #9dc8e9 84%, 
-        #6293b4 100%
-      );
-      box-shadow: 
-        0 0 16px rgba(0, 0, 0, 0.95),
-        0 -6px 14px rgba(0, 0, 0, 0.85),
-        0 6px 14px rgba(0, 0, 0, 0.85),
-        0 0 5px rgba(255, 255, 255, 0.4);
+      background: linear-gradient(180deg, #6293b4 0%, #9dc8e9 16%, #e3f3fe 40%, #ffffff 50%, #e3f3fe 60%, #9dc8e9 84%, #6293b4 100%);
+      box-shadow: 0 0 16px rgba(0, 0, 0, 0.95), 0 -6px 14px rgba(0, 0, 0, 0.85), 0 6px 14px rgba(0, 0, 0, 0.85), 0 0 5px rgba(255, 255, 255, 0.4);
       transition: left 0.7s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.7s ease;
       z-index: 1;
     }
 
-    /* 拆禮物第一步：豎向緞帶與蝴蝶結往上飛走 */
     #startOverlay.step-untie-v .ribbon-vertical {
       top: -100vh;
       opacity: 0;
@@ -205,10 +166,7 @@
       width: clamp(230px, 46vw, 290px);
       height: auto;
       z-index: 4;
-      filter: 
-        drop-shadow(0 4px 6px rgba(0, 0, 0, 0.9))
-        drop-shadow(0 16px 24px rgba(0, 0, 0, 0.95))
-        drop-shadow(0 2px 14px rgba(157, 200, 233, 0.25));
+      filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.9)) drop-shadow(0 16px 24px rgba(0, 0, 0, 0.95)) drop-shadow(0 2px 14px rgba(157, 200, 233, 0.25));
       transition: top 0.65s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.65s ease;
       pointer-events: none;
     }
@@ -218,7 +176,6 @@
       opacity: 0;
     }
 
-    /* 拆禮物第二步：橫向緞帶往右側滑出抽離 */
     #startOverlay.step-untie-h .ribbon-horizontal {
       left: 100vw;
       opacity: 0;
@@ -630,9 +587,6 @@
       object-fit: cover;
     }
 
-    /* ============================================================
-       第八幕：星穹鐵道抽卡出金舞臺 (與聊天室等寬)
-       ============================================================ */
     .gacha-stage-container {
       position: relative;
       width: 100%;
@@ -805,51 +759,46 @@
     }
 
     /* ============================================================
-       第十二幕：佈局調整 (標題下方專屬寄語流動區、許願標籤淡出)
+       第十二幕：精準垂直流動佈局 (標題在上方，蛋糕自然延伸至畫面底部)
        ============================================================ */
     #section12 {
-      padding: 25px 12px 0 12px !important;
-      justify-content: flex-end !important;
-      overflow: hidden;
+      padding: 5vh 15px 0 15px !important;
+      justify-content: flex-start !important;
+      position: relative;
     }
 
     .final-blessing-container {
       max-width: 520px;
       width: 100%;
-      text-align: center;
-      padding: 0;
+      height: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-end;
-      position: relative;
-      height: 100%;
+      justify-content: space-between;
+      padding-bottom: 0px;
     }
 
     .top-content-wrapper {
-      position: absolute;
-      top: 6vh;
-      left: 50%;
-      transform: translateX(-50%);
       width: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
       z-index: 8;
+      margin-top: 2vh;
     }
 
     .blessing-title {
-      font-size: clamp(1.25rem, 4.2vw, 1.58rem);
+      font-size: clamp(1.3rem, 4vw, 1.62rem);
       font-weight: 700;
-      letter-spacing: 2.5px;
-      line-height: 1.6;
+      letter-spacing: 2px;
+      line-height: 1.8;
       background: linear-gradient(135deg, #fff2c2 0%, #ffdf79 30%, #ffd043 50%, #ffffff 70%, #ffdf79 100%);
       background-size: 200% auto;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       animation: goldShimmer 4s ease-in-out infinite;
       filter: drop-shadow(0 0 14px rgba(255, 223, 121, 0.5));
-      margin-bottom: 8px;
+      text-align: center;
     }
 
     @keyframes goldShimmer {
@@ -860,13 +809,14 @@
 
     .post-blow-message-wrap {
       opacity: 0;
-      transform: translateY(-10px);
+      transform: translateY(-8px);
       pointer-events: none;
       transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1), transform 1s cubic-bezier(0.25, 1, 0.5, 1);
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-top: 4px;
+      width: 100%;
+      margin-top: 12px;
     }
 
     .post-blow-message-wrap.active {
@@ -876,7 +826,7 @@
     }
 
     .blessing-sub {
-      font-size: clamp(0.92rem, 2.8vw, 1.02rem);
+      font-size: clamp(0.95rem, 2.8vw, 1.05rem);
       line-height: 2.1;
       color: #eaeaea;
       letter-spacing: 1px;
@@ -884,13 +834,22 @@
       text-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
     }
 
+    .bottom-stage-wrapper {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 5;
+      margin-top: auto;
+    }
+
     .wish-indicator-wrap {
       display: flex;
       justify-content: center;
       gap: 10px;
-      margin: 8px 0 10px 0;
+      margin-bottom: 10px;
       opacity: 0;
-      transform: translateY(12px);
+      transform: translateY(10px);
       transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1), transform 1s cubic-bezier(0.25, 1, 0.5, 1);
     }
 
@@ -922,14 +881,15 @@
       box-shadow: 0 0 12px rgba(255, 215, 0, 0.45);
     }
 
+    /* 蛋糕舞台：放大 1.5 倍並扎實填滿底部 */
     .giant-cake-stage {
       position: relative;
       width: 100%;
-      max-width: 500px;
-      height: 420px;
-      margin-bottom: 0px;
+      max-width: 520px;
+      height: 440px;
+      margin-bottom: -10px;
       opacity: 0;
-      transform: translateY(60px);
+      transform: translateY(40px);
       transition: opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1), transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
     }
 
@@ -978,7 +938,7 @@
 
     .cake-actions-overlay {
       position: absolute;
-      top: 66%;
+      top: 58%;
       left: 50%;
       transform: translate(-50%, -50%);
       width: 90%;
@@ -1034,7 +994,7 @@
     }
 
     .footer-credits {
-      margin-top: 14px;
+      margin-top: 10px;
       font-size: 0.8rem;
       color: #888898;
       letter-spacing: 1.5px;
@@ -1047,14 +1007,14 @@
     }
 
     .replay-btn {
-      margin-top: 14px;
+      margin-top: 10px;
       background: rgba(20, 20, 24, 0.88);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
       border: 1px solid rgba(255, 223, 121, 0.5);
       color: #ffdf79;
-      padding: 10px 32px;
-      font-size: 0.92rem;
+      padding: 9px 28px;
+      font-size: 0.9rem;
       letter-spacing: 2px;
       border-radius: 30px;
       cursor: pointer;
@@ -1428,7 +1388,7 @@
     </div>
   </section>
 
-  <!-- 第十二幕：頂部標題（僅在此處帶有徐霈綺小字註解）、歌唱完出按鈕、許願與吹蠟燭 -->
+  <!-- 第十二幕：三層豪華大蛋糕與自然流動佈局 -->
   <section class="screen-section" id="section12">
     <div class="final-blessing-container">
       <div class="top-content-wrapper">
@@ -1453,23 +1413,33 @@
         <svg viewBox="0 0 500 440" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: 100%; display: block;">
           <defs>
             <linearGradient id="ivoryBottomGrad" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stop-color="#cfc7b8"/>
-              <stop offset="12%" stop-color="#ece5d8"/>
-              <stop offset="35%" stop-color="#faf7f0"/>
+              <stop offset="0%" stop-color="#b8b0a0"/>
+              <stop offset="15%" stop-color="#e2dad0"/>
+              <stop offset="40%" stop-color="#fcf9f2"/>
               <stop offset="50%" stop-color="#ffffff"/>
-              <stop offset="65%" stop-color="#faf7f0"/>
-              <stop offset="88%" stop-color="#ece5d8"/>
-              <stop offset="100%" stop-color="#cfc7b8"/>
+              <stop offset="60%" stop-color="#fcf9f2"/>
+              <stop offset="85%" stop-color="#e2dad0"/>
+              <stop offset="100%" stop-color="#b8b0a0"/>
             </linearGradient>
 
-            <linearGradient id="ivoryTopGrad" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stop-color="#d6cec0"/>
-              <stop offset="15%" stop-color="#f0e9dc"/>
+            <linearGradient id="ivoryMidGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#c5bcad"/>
+              <stop offset="15%" stop-color="#eae2d6"/>
               <stop offset="40%" stop-color="#fdfbf7"/>
               <stop offset="50%" stop-color="#ffffff"/>
               <stop offset="60%" stop-color="#fdfbf7"/>
+              <stop offset="85%" stop-color="#eae2d6"/>
+              <stop offset="100%" stop-color="#c5bcad"/>
+            </linearGradient>
+
+            <linearGradient id="ivoryTopGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#d0c7b6"/>
+              <stop offset="15%" stop-color="#f0e9dc"/>
+              <stop offset="40%" stop-color="#fefcf8"/>
+              <stop offset="50%" stop-color="#ffffff"/>
+              <stop offset="60%" stop-color="#fefcf8"/>
               <stop offset="85%" stop-color="#f0e9dc"/>
-              <stop offset="100%" stop-color="#d6cec0"/>
+              <stop offset="100%" stop-color="#d0c7b6"/>
             </linearGradient>
 
             <linearGradient id="dripCreamShadow" x1="0" y1="0" x2="0" y2="1">
@@ -1500,86 +1470,93 @@
             </radialGradient>
           </defs>
 
-          <!-- 下層大奶油蛋糕 -->
+          <!-- 最底層超大奶油蛋糕體 -->
           <g>
-            <path d="M 5,235 C 5,235 5,438 5,440 L 495,440 C 495,438 495,235 495,235 Z" fill="url(#ivoryBottomGrad)" />
-            <ellipse cx="250" cy="235" rx="245" ry="36" fill="#e8dfce" />
-            <ellipse cx="250" cy="232" rx="242" ry="33" fill="#f9f6ef" />
-
-            <path d="M 5,235 
-                     C 45,285 85,285 125,250 
-                     C 165,290 215,290 255,252 
-                     C 295,290 345,290 385,252 
-                     C 425,285 465,285 495,235 
-                     C 460,265 370,278 250,278 
-                     C 130,278 40,265 5,235 Z" fill="url(#dripCreamShadow)" opacity="0.95" />
-
-            <circle cx="80" cy="305" r="7" fill="#ffd700" opacity="0.9"/>
-            <circle cx="150" cy="320" r="7" fill="#ffffff" stroke="#c8bcab" stroke-width="2"/>
-            <circle cx="250" cy="326" r="7.5" fill="#ffd700" opacity="0.9"/>
-            <circle cx="350" cy="320" r="7" fill="#ffffff" stroke="#c8bcab" stroke-width="2"/>
-            <circle cx="420" cy="305" r="7" fill="#ffd700" opacity="0.9"/>
+            <path d="M 0,310 C 0,310 0,438 0,440 L 500,440 C 500,438 500,310 500,310 Z" fill="url(#ivoryBottomGrad)" />
+            <ellipse cx="250" cy="310" rx="250" ry="34" fill="#dfd6c5" />
+            <ellipse cx="250" cy="306" rx="246" ry="30" fill="#f8f4ed" />
+            <path d="M 0,310 C 50,355 100,355 150,325 C 200,360 300,360 350,325 C 400,355 450,355 500,310 C 460,335 370,345 250,345 C 130,345 40,335 0,310 Z" fill="url(#dripCreamShadow)" opacity="0.95" />
           </g>
 
-          <!-- 上層大奶油蛋糕 -->
+          <!-- 中層奶油蛋糕體 -->
           <g>
-            <path d="M 80,125 C 80,125 80,222 80,225 C 80,250 420,250 420,225 C 420,222 420,125 420,125 Z" fill="url(#ivoryTopGrad)" />
-            <ellipse cx="250" cy="125" rx="170" ry="28" fill="#e2d8c5" />
-            <ellipse cx="250" cy="122" rx="166" ry="25" fill="#fcfaf5" />
+            <path d="M 40,200 C 40,200 40,308 40,310 L 460,310 C 460,308 460,200 460,200 Z" fill="url(#ivoryMidGrad)" />
+            <ellipse cx="250" cy="200" rx="210" ry="30" fill="#e7ded0" />
+            <ellipse cx="250" cy="196" rx="206" ry="26" fill="#fbf8f2" />
 
-            <path d="M 80,125 
-                     C 115,165 150,165 185,142 
-                     C 220,172 275,172 310,144 
-                     C 345,170 385,170 420,125 
-                     C 390,152 325,160 250,160 
-                     C 175,160 110,152 80,125 Z" fill="url(#dripCreamShadow)" opacity="0.95" />
+            <path d="M 40,200 
+                     C 80,240 120,240 160,215 
+                     C 200,245 300,245 340,215 
+                     C 380,240 420,240 460,200 
+                     C 425,225 350,235 250,235 
+                     C 150,235 75,225 40,200 Z" fill="url(#dripCreamShadow)" opacity="0.95" />
 
-            <circle cx="130" cy="180" r="5.5" fill="#ffd700" opacity="0.85"/>
-            <circle cx="200" cy="192" r="5.5" fill="#ffffff" stroke="#c8bcab" stroke-width="1.8"/>
-            <circle cx="300" cy="192" r="5.5" fill="#ffd700" opacity="0.85"/>
-            <circle cx="370" cy="180" r="5.5" fill="#ffffff" stroke="#c8bcab" stroke-width="1.8"/>
+            <circle cx="90" cy="265" r="6.5" fill="#ffd700" opacity="0.9"/>
+            <circle cx="170" cy="278" r="6.5" fill="#ffffff" stroke="#c8bcab" stroke-width="1.8"/>
+            <circle cx="250" cy="284" r="7" fill="#ffd700" opacity="0.9"/>
+            <circle cx="330" cy="278" r="6.5" fill="#ffffff" stroke="#c8bcab" stroke-width="1.8"/>
+            <circle cx="410" cy="265" r="6.5" fill="#ffd700" opacity="0.9"/>
           </g>
 
-          <!-- 21 歲金色立體蠟燭 (帶有插進蛋糕的支撐插籤) -->
+          <!-- 上層奶油蛋糕體 -->
+          <g>
+            <path d="M 100,100 C 100,100 100,198 100,200 L 400,200 C 400,198 400,100 400,100 Z" fill="url(#ivoryTopGrad)" />
+            <ellipse cx="250" cy="100" rx="150" ry="24" fill="#eee5d8" />
+            <ellipse cx="250" cy="97" rx="146" ry="21" fill="#fefdfb" />
+
+            <path d="M 100,100 
+                     C 130,126 160,126 190,110 
+                     C 220,132 280,132 310,110 
+                     C 340,126 370,126 400,100 
+                     C 370,118 310,125 250,125 
+                     C 190,125 130,118 100,100 Z" fill="url(#dripCreamShadow)" opacity="0.95" />
+
+            <circle cx="140" cy="142" r="5" fill="#ffd700" opacity="0.85"/>
+            <circle cx="195" cy="150" r="5" fill="#ffffff" stroke="#c8bcab" stroke-width="1.5"/>
+            <circle cx="305" cy="150" r="5" fill="#ffd700" opacity="0.85"/>
+            <circle cx="360" cy="142" r="5" fill="#ffffff" stroke="#c8bcab" stroke-width="1.5"/>
+          </g>
+
+          <!-- 21 歲金色立體蠟燭 -->
           <g id="candle21Group">
-            <ellipse cx="227" cy="126" rx="10" ry="4.5" fill="url(#holeShadow)" />
-            <ellipse cx="270" cy="126" rx="9" ry="4.5" fill="url(#holeShadow)" />
+            <ellipse cx="227" cy="101" rx="9" ry="4" fill="url(#holeShadow)" />
+            <ellipse cx="270" cy="101" rx="8.5" ry="4" fill="url(#holeShadow)" />
 
-            <rect x="225.5" y="110" width="3.5" height="18" rx="1.5" fill="#d9d2c5" stroke="#7a7060" stroke-width="0.8" />
-            <rect x="268.5" y="110" width="3.5" height="18" rx="1.5" fill="#d9d2c5" stroke="#7a7060" stroke-width="0.8" />
+            <rect x="225.5" y="86" width="3.5" height="16" rx="1.5" fill="#d9d2c5" stroke="#7a7060" stroke-width="0.8" />
+            <rect x="268.5" y="86" width="3.5" height="16" rx="1.5" fill="#d9d2c5" stroke="#7a7060" stroke-width="0.8" />
 
-            <circle cx="222" cy="125" r="3.2" fill="#ffffff" stroke="#d5caa8" stroke-width="0.8"/>
-            <circle cx="232" cy="125" r="3.5" fill="#ffffff" stroke="#d5caa8" stroke-width="0.8"/>
-            <circle cx="266" cy="125" r="3.2" fill="#ffffff" stroke="#d5caa8" stroke-width="0.8"/>
-            <circle cx="275" cy="125" r="3.4" fill="#ffffff" stroke="#d5caa8" stroke-width="0.8"/>
+            <circle cx="222" cy="100" r="3" fill="#ffffff" stroke="#d5caa8" stroke-width="0.8"/>
+            <circle cx="232" cy="100" r="3.2" fill="#ffffff" stroke="#d5caa8" stroke-width="0.8"/>
+            <circle cx="266" cy="100" r="3" fill="#ffffff" stroke="#d5caa8" stroke-width="0.8"/>
+            <circle cx="275" cy="100" r="3.4" fill="#ffffff" stroke="#d5caa8" stroke-width="0.8"/>
 
             <!-- 數字「2」 -->
-            <line x1="228" y1="52" x2="228" y2="40" stroke="#262626" stroke-width="2.5" stroke-linecap="round" />
-            <path d="M 215,64 C 215,50 240,50 240,64 C 240,74 216,92 215,108 L 242,108 L 242,118 L 212,118 L 212,106 C 214,94 230,80 230,68 C 230,60 222,60 220,64 Z" fill="url(#candleGoldGrad)" stroke="#8e670c" stroke-width="1.5" stroke-linejoin="round" />
+            <line x1="228" y1="36" x2="228" y2="24" stroke="#262626" stroke-width="2.5" stroke-linecap="round" />
+            <path d="M 215,46 C 215,34 240,34 240,46 C 240,56 216,72 215,87 L 242,87 L 242,97 L 212,97 L 212,86 C 214,76 230,62 230,50 C 230,43 222,43 220,46 Z" fill="url(#candleGoldGrad)" stroke="#8e670c" stroke-width="1.5" stroke-linejoin="round" />
 
             <!-- 數字「1」 -->
-            <line x1="272" y1="52" x2="272" y2="40" stroke="#262626" stroke-width="2.5" stroke-linecap="round" />
-            <path d="M 262,64 L 272,56 L 272,118 L 260,118 L 260,108 L 270,108 L 270,68 L 260,74 Z" fill="url(#candleGoldGrad)" stroke="#8e670c" stroke-width="1.5" stroke-linejoin="round" />
+            <line x1="272" y1="36" x2="272" y2="24" stroke="#262626" stroke-width="2.5" stroke-linecap="round" />
+            <path d="M 262,46 L 272,38 L 272,97 L 260,97 L 260,87 L 270,87 L 270,50 L 260,55 Z" fill="url(#candleGoldGrad)" stroke="#8e670c" stroke-width="1.5" stroke-linejoin="round" />
           </g>
 
           <!-- 飄散輕煙 -->
           <g class="smoke-puff" id="candleSmoke">
-            <path d="M 228,38 C 222,26 235,14 226,0 C 220,-10 232,-22 228,-36" stroke="rgba(240,240,240,0.85)" stroke-width="4" stroke-linecap="round" fill="none"/>
-            <circle cx="225" cy="14" r="6" fill="rgba(245,245,245,0.5)" />
-            <path d="M 272,38 C 266,26 280,14 270,0 C 265,-10 276,-22 272,-36" stroke="rgba(240,240,240,0.85)" stroke-width="4" stroke-linecap="round" fill="none"/>
-            <circle cx="275" cy="10" r="6.5" fill="rgba(245,245,245,0.5)" />
+            <path d="M 228,22 C 222,12 235,2 226,-10 C 220,-20 232,-30 228,-42" stroke="rgba(240,240,240,0.85)" stroke-width="4" stroke-linecap="round" fill="none"/>
+            <circle cx="225" cy="2" r="6" fill="rgba(245,245,245,0.5)" />
+            <path d="M 272,22 C 266,12 280,2 270,-10 C 265,-20 276,-30 272,-42" stroke="rgba(240,240,240,0.85)" stroke-width="4" stroke-linecap="round" fill="none"/>
+            <circle cx="275" cy="0" r="6.5" fill="rgba(245,245,245,0.5)" />
           </g>
 
           <!-- 雙動態燃燒燭火 -->
           <g class="candle-flame flame-2" id="candleFlame2">
-            <ellipse cx="228" cy="26" rx="15" ry="20" fill="rgba(255, 200, 0, 0.3)" filter="blur(4px)" />
-            <path d="M 228,8 C 235,20 240,28 236,36 C 232,44 224,44 220,36 C 216,28 221,20 228,8 Z" fill="url(#flameGlow)" />
-            <ellipse cx="228" cy="32" rx="3.5" ry="6.5" fill="#ffffff" opacity="0.95" />
+            <ellipse cx="228" cy="14" rx="13" ry="16" fill="rgba(255, 200, 0, 0.3)" filter="blur(4px)" />
+            <path d="M 228,0 C 234,10 238,16 234,22 C 230,28 222,28 218,22 C 214,16 219,10 228,0 Z" fill="url(#flameGlow)" />
+            <ellipse cx="228" cy="18" rx="2.5" ry="5" fill="#ffffff" opacity="0.95" />
           </g>
           <g class="candle-flame flame-1" id="candleFlame1">
-            <ellipse cx="272" cy="26" rx="15" ry="20" fill="rgba(255, 200, 0, 0.3)" filter="blur(4px)" />
-            <path d="M 272,8 C 279,20 284,28 280,36 C 276,44 268,44 264,36 C 260,28 265,20 272,8 Z" fill="url(#flameGlow)" />
-            <ellipse cx="272" cy="32" rx="3.5" ry="6.5" fill="#ffffff" opacity="0.95" />
+            <ellipse cx="272" cy="14" rx="13" ry="16" fill="rgba(255, 200, 0, 0.3)" filter="blur(4px)" />
+            <path d="M 272,0 C 278,10 282,16 278,22 C 274,28 266,28 263,22 C 259,16 264,10 272,0 Z" fill="url(#flameGlow)" />
+            <ellipse cx="272" cy="18" rx="2.5" ry="5" fill="#ffffff" opacity="0.95" />
           </g>
         </svg>
 
@@ -1983,23 +1960,23 @@
     ];
 
     const lines3_part1 = [
-      "就這樣,我成功拿到了聯絡方式,開啟了日後無止境「騷擾」妳的日常。"
+      "就這樣，我成功拿到了聯絡方式，開啟了日後無止境「騷擾」妳的日常。"
     ];
 
     const lines3_part2 = [
-      "原本寒冷又安靜得讓人犯睏的圖書館,因為妳變得很有溫度。\n\n",
-      "以前我連藍牙耳機都沒有,厚著臉皮跟妳借一邊耳機來聽、甚至……"
+      "原本寒冷又安靜得讓人犯睏的圖書館，因為妳變得很有溫度。\n\n",
+      "以前我連藍牙耳機都沒有，厚著臉皮跟妳借一邊耳機來聽、甚至……"
     ];
 
     const lines4 = [
-      "沒錯,甚至……點歌。\n\n",
-      "我們一起做過許多工作,像是上架、移架。\n\n",
-      "即便在不同樓層工作,也傳訊息互相通報長官動向："
+      "沒錯，甚至……點歌。\n\n",
+      "我們一起做過許多工作，像是上架、移架。\n\n",
+      "即便在不同樓層工作，也傳訊息互相通報長官動向："
     ];
 
     const lines5 = [
-      "後來才發現,我們重疊的何止是遊戲。\n\n",
-      "每一季追的動畫口味驚人的一致,奈何圖書館上班不便喧嘩,我們就約下班後吃晚餐聊天,順理成章發展成每週固定碰面的「飯搭子」："
+      "後來才發現，我們重疊的何止是遊戲。\n\n",
+      "每一季追的動畫口味驚人的一致，奈何圖書館上班不便喧嘩，我們就約下班後吃晚餐聊天，順理成章發展成每週固定碰面的「飯搭子」："
     ];
 
     const lines6_part1 = [
@@ -2008,15 +1985,15 @@
 
     const lines6_part2 = [
       "還有那些平常滑到、隨手丟給對方的幹片。\n\n",
-      "我們或許不會馬上秒回訊息,但只要有空,每一部都一定會看完,然後默默留下一個表情符號——「已讀章」,是屬於我們的日常默契："
+      "我們或許不會馬上秒回訊息，但只要有空，每一部都一定會看完，然後默默留下一個表情符號——「已讀章」，是屬於我們的日常默契："
     ];
 
     const lines7_part1 = [
-      "我談戀愛時,妳曾半開玩笑地問我："
+      "我談戀愛時，妳曾半開玩笑地問我："
     ];
 
     const lines7_part2 = [
-      "妳甚至覺得我不會再常找妳吃飯了,事實證明完全沒有。我很開心地把妳介紹給他,變成我們三個人一起逛街、看電影、到處吃美食的日常："
+      "妳甚至覺得我不會再常找妳吃飯了，事實證明完全沒有。我很開心地把妳介紹給他，變成我們三個人一起逛街、看電影、到處吃美食的日常："
     ];
 
     const lines8_part1 = [
@@ -2024,35 +2001,34 @@
     ];
 
     const lines8_part2 = [
-      "但女人,妳自己又何嘗不是我的「雙金」呢？"
+      "但女人，妳自己又何嘗不是我的「雙金」呢？"
     ];
 
     const lines8_part3 = [
-      "在機率這麼渺茫的人海裡,能同時抽到你們兩個,是我這輩子歐氣爆棚的證明。"
+      "在機率這麼渺茫的人海裡，能同時抽到你們兩個，是我這輩子歐氣爆棚的證明。"
     ];
 
     const lines9 = [
       "我知道妳是個多麼懶得出門、下班下課就歸心似箭想回家吸貓的人。\n\n",
-      "謝謝妳一次又一次,不嫌麻煩地從板橋大老遠跑來桃園陪我吃飯；謝謝妳即便外頭飄著雨,還是踩著腳踏車趕來赴約,甚至出現在我的畢業典禮上："
+      "謝謝妳一次又一次，不嫌麻煩地從板橋大老遠跑來桃園陪我吃飯；謝謝妳即便外頭飄著雨，還是踩著腳踏車趕來赴約，甚至出現在我的畢業典禮上："
     ];
 
     const lines10 = [
-      "從國小到大學,我從未擁有過一段能如此深刻、頻率又如此合拍的友誼。\n\n",
-      "不同系所、不同年級、來自不同城市的我們,偏偏在那個下班的走道上,因為一個小小的徽章拉開了序幕。\n\n",
-      "能遇見妳,真的是我大學生活裡最幸運的一件事："
+      "從國小到大學，我從未擁有過一段能如此深刻、頻率又如此合拍的友誼。\n\n",
+      "不同系所、不同年級、來自不同城市的我們，偏偏在那個下班的走道上，因為一個小小的徽章拉開了序幕。\n\n",
+      "能遇見妳，真的是我大學生活裡最幸運的一件事："
     ];
 
     const lines11 = [
-      "沒有準備什麼昂貴的厚禮,只有寫滿我們故事的網頁——"
+      "沒有準備什麼昂貴的厚禮，只有寫滿我們故事的網頁——"
     ];
 
-    /* 僅在最後一幕的標題帶有「徐霈綺」上方小註解 */
     const lines12_title = [
-      "21 歲的<ruby>女人<rt>徐霈綺</rt></ruby>,祝妳生日快樂。"
+      "21 歲的女人，祝妳生日快樂。"
     ];
 
     const lines12_body = [
-      "新的一歲,請務必健康、平安,而且每一天都要快樂。"
+      "新的一歲，請務必健康、平安，而且每一天都要快樂。"
     ];
 
     let currentSection = 1;
@@ -2063,19 +2039,8 @@
         if (lIdx < lines.length) {
           const line = lines[lIdx];
           if (cIdx < line.length) {
-            if (line.charAt(cIdx) === '<') {
-              const tagEnd = line.indexOf('>', cIdx);
-              if (tagEnd !== -1) {
-                const subTag = line.substring(cIdx, tagEnd + 1);
-                targetEl.innerHTML += subTag;
-                cIdx = tagEnd + 1;
-                addTimeout(step, 10);
-                return;
-              }
-            }
-
             const char = line.charAt(cIdx);
-            targetEl.innerHTML += char;
+            targetEl.textContent += char;
             cIdx++;
             if (char !== '\n' && char !== ' ') playKeySound();
 
@@ -2180,7 +2145,7 @@
       const t2 = document.getElementById("typewriter3_2");
       const c2 = document.getElementById("cursor3_2");
 
-      t1.innerHTML = ""; t2.innerHTML = "";
+      t1.textContent = ""; t2.textContent = "";
       c1.style.display = "inline-block";
       c2.style.display = "none";
 
@@ -2223,7 +2188,7 @@
     function triggerSection4Animation() {
       const targetEl = document.getElementById("typewriter4");
       const cursorEl = document.getElementById("cursor4");
-      targetEl.innerHTML = "";
+      targetEl.textContent = "";
       cursorEl.style.display = "inline-block";
 
       addTimeout(() => {
@@ -2281,7 +2246,7 @@
     function triggerSection5Animation() {
       const t = document.getElementById("typewriter5");
       const c = document.getElementById("cursor5");
-      t.innerHTML = "";
+      t.textContent = "";
       c.style.display = "inline-block";
 
       addTimeout(() => {
@@ -2332,7 +2297,7 @@
       const t2 = document.getElementById("typewriter6_2");
       const c2 = document.getElementById("cursor6_2");
 
-      t1.innerHTML = ""; t2.innerHTML = "";
+      t1.textContent = ""; t2.textContent = "";
       c1.style.display = "inline-block";
       c2.style.display = "none";
 
@@ -2404,7 +2369,7 @@
       const t2 = document.getElementById("typewriter7_2");
       const c2 = document.getElementById("cursor7_2");
 
-      t1.innerHTML = ""; t2.innerHTML = "";
+      t1.textContent = ""; t2.textContent = "";
       c1.style.display = "inline-block";
       c2.style.display = "none";
 
@@ -2450,7 +2415,7 @@
       const t3 = document.getElementById("typewriter8_3");
       const c3 = document.getElementById("cursor8_3");
 
-      t1.innerHTML = ""; t2.innerHTML = ""; t3.innerHTML = "";
+      t1.textContent = ""; t2.textContent = ""; t3.textContent = "";
       c1.style.display = "inline-block";
       c2.style.display = "none";
       c3.style.display = "none";
@@ -2533,7 +2498,7 @@
     function triggerSection9Animation() {
       const t = document.getElementById("typewriter9");
       const c = document.getElementById("cursor9");
-      t.innerHTML = "";
+      t.textContent = "";
       c.style.display = "inline-block";
 
       addTimeout(() => {
@@ -2558,7 +2523,7 @@
     function triggerSection10Animation() {
       const t = document.getElementById("typewriter10");
       const c = document.getElementById("cursor10");
-      t.innerHTML = "";
+      t.textContent = "";
       c.style.display = "inline-block";
 
       addTimeout(() => {
@@ -2609,7 +2574,7 @@
     function triggerSection11Animation() {
       const t = document.getElementById("typewriter11");
       const c = document.getElementById("cursor11");
-      t.innerHTML = "";
+      t.textContent = "";
       c.style.display = "inline-block";
 
       addTimeout(() => {
@@ -2646,7 +2611,7 @@
     }
 
     // ============================================================
-    // 第十二幕：頂部標題、歌唱完出按鈕、許願與吹蠟燭
+    // 第十二幕：頂部標題、歌唱完出按鈕、許願與三層豪華大蛋糕
     // ============================================================
     let currentWishStep = 0;
     let micStream = null;
@@ -2683,7 +2648,7 @@
 
     function triggerSection12Animation() {
       const tTitle = document.getElementById("typewriter12_title");
-      tTitle.innerHTML = "";
+      tTitle.textContent = "";
 
       addTimeout(() => {
         // 1. 打出大標題
@@ -2733,7 +2698,6 @@
         blowHint.textContent = "第 1 個願望已悄悄送達星空";
       } else if (currentWishStep === 2) {
         wishBtn.textContent = "✦ 許下第 3 個願望 ✦";
-        // 第三個願望貼心提示彩蛋
         blowHint.textContent = "第三個願望放心底，留給自己實現 🤫";
       } else if (currentWishStep === 3) {
         wishBtn.style.display = "none";
@@ -2790,7 +2754,6 @@
 
       playBlowOutSound();
 
-      // 雙燭火同時熄滅
       const flame1 = document.getElementById("candleFlame1");
       const flame2 = document.getElementById("candleFlame2");
       const smoke = document.getElementById("candleSmoke");
@@ -2798,11 +2761,9 @@
       if (flame2) flame2.classList.add("extinguished");
       if (smoke) smoke.classList.add("drifting");
 
-      // 隱藏蛋糕上的許願按鈕
       const actions = document.getElementById("cakeActions");
       if (actions) actions.style.display = "none";
 
-      // 讓上方三個願望的進度標籤優雅淡出
       const wishWrap = document.getElementById("wishIndicatorWrap");
       if (wishWrap) wishWrap.classList.add("fade-out");
 
@@ -2811,7 +2772,6 @@
         confetti({ particleCount: 160, spread: 100, origin: { y: 0.55 } });
       }, 300);
 
-      // 在標題下方平滑浮現溫馨寄語與按鈕
       const postMsgWrap = document.getElementById("postBlowMsgWrap");
       if (postMsgWrap) postMsgWrap.classList.add("active");
 
@@ -2820,7 +2780,7 @@
       const credits = document.getElementById("footerCredits");
       const replayBtn = document.getElementById("replayBtn");
 
-      tBody.innerHTML = "";
+      tBody.textContent = "";
       c12.style.display = "inline-block";
 
       addTimeout(() => {
@@ -2852,7 +2812,7 @@
 
         if (currentSection === 1) {
           document.getElementById("startOverlay").style.display = "none";
-          document.getElementById("typewriter1").innerHTML = lines1.join("");
+          document.getElementById("typewriter1").textContent = lines1.join("");
           document.getElementById("cursor1").style.display = "none";
           goToSection(2);
         } else if (currentSection === 2) {
@@ -2863,9 +2823,9 @@
           });
           goToSection(3);
         } else if (currentSection === 3) {
-          document.getElementById("typewriter3_1").innerHTML = lines3_part1.join("");
+          document.getElementById("typewriter3_1").textContent = lines3_part1.join("");
           document.getElementById("cursor3_1").style.display = "none";
-          document.getElementById("typewriter3_2").innerHTML = lines3_part2.join("");
+          document.getElementById("typewriter3_2").textContent = lines3_part2.join("");
           document.getElementById("cursor3_2").style.display = "none";
           ["s3_poke1", "s3_poke2", "s3_poke3", "s3_poke4", "s3_heart", "s3_msg1", "s3_msg2"].forEach(id => {
             const el = document.getElementById(id);
@@ -2873,7 +2833,7 @@
           });
           goToSection(4);
         } else if (currentSection === 4) {
-          document.getElementById("typewriter4").innerHTML = lines4.join("");
+          document.getElementById("typewriter4").textContent = lines4.join("");
           document.getElementById("cursor4").style.display = "none";
           document.getElementById("s4_text_insert").style.opacity = "1";
           document.getElementById("s4_time").classList.add("show");
@@ -2885,7 +2845,7 @@
         } else if (currentSection === 5) {
           const t5 = document.getElementById("typewriter5");
           const c5 = document.getElementById("cursor5");
-          if (t5) t5.innerHTML = lines5.join("");
+          if (t5) t5.textContent = lines5.join("");
           if (c5) c5.style.display = "none";
           [
             "s5_msg1", "s5_msg2", "s5_msg3", "s5_msg4", "s5_msg5",
@@ -2896,10 +2856,14 @@
           });
           goToSection(6);
         } else if (currentSection === 6) {
-          document.getElementById("typewriter6_1").innerHTML = lines6_part1.join("");
-          document.getElementById("cursor6_1").style.display = "none";
-          document.getElementById("typewriter6_2").innerHTML = lines6_part2.join("");
-          document.getElementById("cursor6_2").style.display = "none";
+          const t1 = document.getElementById("typewriter6_1");
+          const c1 = document.getElementById("cursor6_1");
+          const t2 = document.getElementById("typewriter6_2");
+          const c2 = document.getElementById("cursor6_2");
+          if (t1) t1.textContent = lines6_part1.join("");
+          if (c1) c1.style.display = "none";
+          if (t2) t2.textContent = lines6_part2.join("");
+          if (c2) c2.style.display = "none";
           [
             "s6_album_aqua", "s6_album_meme",
             "s6_msg1", "s6_msg2", "s6_heart_dead",
@@ -2910,9 +2874,9 @@
           });
           goToSection(7);
         } else if (currentSection === 7) {
-          document.getElementById("typewriter7_1").innerHTML = lines7_part1.join("");
+          document.getElementById("typewriter7_1").textContent = lines7_part1.join("");
           document.getElementById("cursor7_1").style.display = "none";
-          document.getElementById("typewriter7_2").innerHTML = lines7_part2.join("");
+          document.getElementById("typewriter7_2").textContent = lines7_part2.join("");
           document.getElementById("cursor7_2").style.display = "none";
           ["s7_msg1", "s7_msg2", "s7_msg3", "s7_msg4", "s7_photo_wrap"].forEach(id => {
             const el = document.getElementById(id);
@@ -2920,11 +2884,11 @@
           });
           goToSection(8);
         } else if (currentSection === 8) {
-          document.getElementById("typewriter8_1").innerHTML = lines8_part1.join("");
+          document.getElementById("typewriter8_1").textContent = lines8_part1.join("");
           document.getElementById("cursor8_1").style.display = "none";
-          document.getElementById("typewriter8_2").innerHTML = lines8_part2.join("");
+          document.getElementById("typewriter8_2").textContent = lines8_part2.join("");
           document.getElementById("cursor8_2").style.display = "none";
-          document.getElementById("typewriter8_3").innerHTML = lines8_part3.join("");
+          document.getElementById("typewriter8_3").textContent = lines8_part3.join("");
           document.getElementById("cursor8_3").style.display = "none";
           ["s8_photo_wrap_1", "s8_photo_wrap_2"].forEach(id => {
             const el = document.getElementById(id);
@@ -2940,7 +2904,7 @@
           });
           goToSection(9);
         } else if (currentSection === 9) {
-          document.getElementById("typewriter9").innerHTML = lines9.join("");
+          document.getElementById("typewriter9").textContent = lines9.join("");
           document.getElementById("cursor9").style.display = "none";
           const el = document.getElementById("s9_photo_wrap");
           const gradImg = document.getElementById("s9_grad_img");
@@ -2948,20 +2912,20 @@
           if (gradImg) gradImg.classList.add("zoomed");
           goToSection(10);
         } else if (currentSection === 10) {
-          document.getElementById("typewriter10").innerHTML = lines10.join("");
+          document.getElementById("typewriter10").textContent = lines10.join("");
           document.getElementById("cursor10").style.display = "none";
           const el = document.getElementById("s10_photo_wrap");
           if (el) el.classList.add("show");
           goToSection(11);
         } else if (currentSection === 11) {
-          document.getElementById("typewriter11").innerHTML = lines11.join("");
+          document.getElementById("typewriter11").textContent = lines11.join("");
           document.getElementById("cursor11").style.display = "none";
           const box = document.getElementById("s11_pdf_box");
           if (box) box.classList.add("show");
           goToSection(12);
         } else if (currentSection === 12) {
-          document.getElementById("typewriter12_title").innerHTML = lines12_title.join("");
-          document.getElementById("typewriter12_body").innerHTML = lines12_body.join("");
+          document.getElementById("typewriter12_title").textContent = lines12_title.join("");
+          document.getElementById("typewriter12_body").textContent = lines12_body.join("");
           document.getElementById("cursor12").style.display = "none";
           const wishWrap = document.getElementById("wishIndicatorWrap");
           if (wishWrap) wishWrap.classList.add("fade-out");
