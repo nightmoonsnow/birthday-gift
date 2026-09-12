@@ -3,6 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
+  <!-- 行動端 Viewport 設定 -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>致 女人</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
@@ -37,7 +38,7 @@
     }
 
     .text-screen {
-      font-size: clamp(0.95rem, 2.5vw, 1.05rem);
+      font-size: clamp(0.95rem, 2.8vw, 1.08rem);
       line-height: 2.1;
       letter-spacing: 0.5px;
       color: #eaeaea;
@@ -51,7 +52,7 @@
       opacity: 0;
       transition: opacity 0.5s ease;
       margin: 18px 0 12px 0;
-      font-size: clamp(0.95rem, 2.5vw, 1.05rem);
+      font-size: clamp(0.95rem, 2.8vw, 1.08rem);
       line-height: 1.8;
       color: #eaeaea;
       text-align: left;
@@ -554,9 +555,12 @@
       object-fit: cover;
     }
 
-    .gacha-card-container {
+    /* ============================================================
+       第八幕：先 Lottery 流星金光 ➔ 隨後原地變換出臉部頭像
+       ============================================================ */
+    .gacha-stage-container {
       position: relative;
-      max-width: 360px;
+      max-width: 380px;
       width: 90%;
       aspect-ratio: 16 / 9;
       border-radius: 14px;
@@ -568,78 +572,62 @@
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
     }
 
-    .gacha-reveal-mask {
+    /* 底層：流星背景圖 (Lottery.jpg) */
+    .gacha-base-img {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      border-radius: 14px;
-      z-index: 2;
-      pointer-events: none;
+      object-fit: cover;
+      display: block;
     }
 
-    .gacha-img {
+    /* 頂層：帶有臉部的人物圖 (初始透明，出金瞬間浮現) */
+    .gacha-face-img {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      border-radius: 14px;
       opacity: 0;
+      transition: opacity 0.8s ease-in-out;
       display: block;
-      transform-origin: center center;
+      z-index: 2;
     }
 
-    .gacha-card-container.animating .gacha-reveal-mask {
-      animation: gachaGlowSequence 3s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    .gacha-face-img.revealed {
+      opacity: 1;
     }
 
-    .gacha-card-container.animating .gacha-img {
-      animation: gachaRevealAndZoomFast 3.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    /* 出金閃爍光暈 (出金瞬間在臉部背後閃現金色衝擊波) */
+    .gacha-flash-fx {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 55% 48%, rgba(255, 230, 100, 0.85) 0%, rgba(255, 180, 0, 0.4) 40%, transparent 70%);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 3;
+      transition: opacity 0.3s ease;
     }
 
-    @keyframes gachaGlowSequence {
-      0% {
-        background-color: #ffffff;
-        box-shadow: 0 0 20px rgba(255, 255, 255, 0.9);
-        opacity: 1;
-      }
-      35% {
-        background-color: #ffffff;
-        box-shadow: 0 0 35px rgba(255, 255, 255, 1);
-        opacity: 1;
-      }
-      65% {
-        background-color: #f7d057;
-        box-shadow: 0 0 45px rgba(255, 200, 0, 0.9), 0 0 80px rgba(255, 160, 0, 0.6);
-        opacity: 0.95;
-      }
-      85% {
-        background-color: rgba(255, 215, 0, 0.4);
-        box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
-        opacity: 0.5;
-      }
-      100% {
-        background-color: transparent;
-        box-shadow: 0 0 20px rgba(255, 200, 0, 0.35);
-        opacity: 0;
-      }
+    .gacha-flash-fx.flashing {
+      animation: gachaFlashPulse 0.8s ease-out forwards;
     }
 
-    @keyframes gachaRevealAndZoomFast {
-      0%, 60% {
-        opacity: 0;
-        transform: scale(1);
-      }
-      85.7% {
-        opacity: 1;
-        transform: scale(1);
-      }
-      100% {
-        opacity: 1;
-        transform: scale(1.7);
-      }
+    @keyframes gachaFlashPulse {
+      0% { opacity: 0; }
+      30% { opacity: 1; }
+      100% { opacity: 0; }
     }
 
+    /* ============================================================
+       第九幕：畢業合照偏右特寫放大 75% (聚焦在兩人與花束)
+       ============================================================ */
     .grad-photo-container {
       position: relative;
       max-width: 360px;
@@ -654,12 +642,14 @@
       width: 100%;
       height: auto;
       display: block;
-      transform-origin: center center;
-      transition: transform 1.5s cubic-bezier(0.25, 1, 0.5, 1);
+      /* 縮放中心偏右偏上，精確對準兩人的臉與花束 */
+      transform-origin: 62% 48%;
+      transition: transform 1.6s cubic-bezier(0.25, 1, 0.5, 1);
     }
 
+    /* 放大 75% (scale: 1.75) */
     .grad-img.zoomed {
-      transform: scale(1.7);
+      transform: scale(1.75);
     }
 
     .storyboard-pdf-box {
@@ -980,6 +970,7 @@
     </div>
   </section>
 
+  <!-- 第八幕：流星金色抽卡 ➔ 臉部直接現身（無縮放抖動） -->
   <section class="screen-section" id="section8">
     <div class="container">
       <div>
@@ -987,9 +978,13 @@
       </div>
 
       <div class="center-photo-wrap" id="s8_photo_wrap_1">
-        <div class="gacha-card-container" id="s8_card_1">
-          <div class="gacha-reveal-mask"></div>
-          <img src="Lottery_1.png" alt="第十抽出金" class="gacha-img" />
+        <div class="gacha-stage-container" id="s8_card_1">
+          <!-- 底層：純流星 -->
+          <img src="Lottery.jpg" alt="第十抽流星" class="gacha-base-img" />
+          <!-- 頂層：雷狗臉孔 (出金時淡入浮現) -->
+          <img src="Lottery_1.jpg" alt="雷狗男朋友出金" id="s8_face_1" class="gacha-face-img" />
+          <!-- 爆發光暈層 -->
+          <div class="gacha-flash-fx" id="s8_flash_1"></div>
         </div>
       </div>
 
@@ -998,9 +993,13 @@
       </div>
 
       <div class="center-photo-wrap" id="s8_photo_wrap_2">
-        <div class="gacha-card-container" id="s8_card_2">
-          <div class="gacha-reveal-mask"></div>
-          <img src="Lottery_2.png" alt="命中註定的雙金" class="gacha-img" />
+        <div class="gacha-stage-container" id="s8_card_2">
+          <!-- 底層：純流星 -->
+          <img src="Lottery.jpg" alt="雙金流星" class="gacha-base-img" />
+          <!-- 頂層：女人臉孔 (出金時淡入浮現) -->
+          <img src="Lottery_2.jpg" alt="女人雙金出金" id="s8_face_2" class="gacha-face-img" />
+          <!-- 爆發光暈層 -->
+          <div class="gacha-flash-fx" id="s8_flash_2"></div>
         </div>
       </div>
 
@@ -1134,28 +1133,28 @@
         const gain1 = audioCtx.createGain();
         osc1.type = 'sine';
         osc1.frequency.setValueAtTime(329.63, now);
-        osc1.frequency.exponentialRampToValueAtTime(659.25, now + 1.8);
+        osc1.frequency.exponentialRampToValueAtTime(659.25, now + 1.2);
         gain1.gain.setValueAtTime(0.001, now);
-        gain1.gain.linearRampToValueAtTime(0.12, now + 1.2);
-        gain1.gain.exponentialRampToValueAtTime(0.001, now + 2.0);
+        gain1.gain.linearRampToValueAtTime(0.12, now + 0.8);
+        gain1.gain.exponentialRampToValueAtTime(0.001, now + 1.4);
         osc1.connect(gain1);
         gain1.connect(audioCtx.destination);
         osc1.start(now);
-        osc1.stop(now + 2.0);
+        osc1.stop(now + 1.4);
 
         const bells = [1318.51, 1648.14];
         bells.forEach((freq, idx) => {
           const oscBell = audioCtx.createOscillator();
           const gainBell = audioCtx.createGain();
           oscBell.type = 'sine';
-          oscBell.frequency.setValueAtTime(freq, now + 1.8 + idx * 0.08);
-          gainBell.gain.setValueAtTime(0.001, now + 1.8 + idx * 0.08);
-          gainBell.gain.linearRampToValueAtTime(0.14, now + 1.85 + idx * 0.08);
-          gainBell.gain.exponentialRampToValueAtTime(0.001, now + 3.2);
+          oscBell.frequency.setValueAtTime(freq, now + 1.2 + idx * 0.08);
+          gainBell.gain.setValueAtTime(0.001, now + 1.2 + idx * 0.08);
+          gainBell.gain.linearRampToValueAtTime(0.16, now + 1.25 + idx * 0.08);
+          gainBell.gain.exponentialRampToValueAtTime(0.001, now + 2.6);
           oscBell.connect(gainBell);
           gainBell.connect(audioCtx.destination);
-          oscBell.start(now + 1.8 + idx * 0.08);
-          oscBell.stop(now + 3.2);
+          oscBell.start(now + 1.2 + idx * 0.08);
+          oscBell.stop(now + 2.6);
         });
       } catch (e) {}
     }
@@ -1655,6 +1654,9 @@
       }, 400);
     }
 
+    // ============================================================
+    // 第八幕排程：先顯示 Lottery.jpg ➔ 伴隨音效浮現臉孔 ➔ 接下一段
+    // ============================================================
     function triggerSection8Animation() {
       const t1 = document.getElementById("typewriter8_1");
       const c1 = document.getElementById("cursor8_1");
@@ -1670,37 +1672,53 @@
 
       addTimeout(() => {
         runTypewriter(lines8_part1, t1, c1, () => {
+          // 1. 顯示純流星 (Lottery.jpg)
           addTimeout(() => {
             const wrap1 = document.getElementById("s8_photo_wrap_1");
-            const card1 = document.getElementById("s8_card_1");
+            const face1 = document.getElementById("s8_face_1");
+            const flash1 = document.getElementById("s8_flash_1");
             wrap1.classList.add("show");
-            card1.classList.add("animating");
             playGachaSound();
             gentlyScrollIntoView(wrap1);
 
+            // 1.2 秒後金光爆發，臉孔浮現！
+            addTimeout(() => {
+              flash1.classList.add("flashing");
+              face1.classList.add("revealed");
+            }, 1200);
+
+            // 2. 停頓後打第二句：雙金
             addTimeout(() => {
               c2.style.display = "inline-block";
               gentlyScrollIntoView(t2);
               runTypewriter(lines8_part2, t2, c2, () => {
+                // 顯示第二張純流星
                 addTimeout(() => {
                   const wrap2 = document.getElementById("s8_photo_wrap_2");
-                  const card2 = document.getElementById("s8_card_2");
+                  const face2 = document.getElementById("s8_face_2");
+                  const flash2 = document.getElementById("s8_flash_2");
                   wrap2.classList.add("show");
-                  card2.classList.add("animating");
                   playGachaSound();
                   gentlyScrollIntoView(wrap2);
 
+                  // 1.2 秒後金光爆發，女人臉孔浮現！
+                  addTimeout(() => {
+                    flash2.classList.add("flashing");
+                    face2.classList.add("revealed");
+                  }, 1200);
+
+                  // 3. 停頓後打收尾：歐氣爆棚
                   addTimeout(() => {
                     c3.style.display = "inline-block";
                     gentlyScrollIntoView(t3);
                     runTypewriter(lines8_part3, t3, c3, () => {
                       addTimeout(() => goToSection(9), 3200);
                     });
-                  }, 3700);
+                  }, 2800);
 
                 }, 800);
               });
-            }, 3900);
+            }, 3000);
 
           }, 600);
         });
@@ -1722,11 +1740,12 @@
             playPhotoSound();
             gentlyScrollIntoView(wrap);
 
+            // 0.8 秒後平滑偏右放大 75% 特寫！
             addTimeout(() => {
               if (gradImg) gradImg.classList.add("zoomed");
             }, 800);
 
-            addTimeout(() => goToSection(10), 3600);
+            addTimeout(() => goToSection(10), 3800);
           }, 600);
         });
       }, 400);
@@ -1948,17 +1967,9 @@
             const el = document.getElementById(id);
             if (el) el.classList.add("show");
           });
-          ["s8_card_1", "s8_card_2"].forEach(id => {
-            const card = document.getElementById(id);
-            if (card) {
-              const mask = card.querySelector(".gacha-reveal-mask");
-              const img = card.querySelector(".gacha-img");
-              if (mask) mask.style.display = "none";
-              if (img) {
-                img.style.opacity = "1";
-                img.style.transform = "scale(1.7)";
-              }
-            }
+          ["s8_face_1", "s8_face_2"].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.classList.add("revealed");
           });
           goToSection(9);
         } else if (currentSection === 9) {
