@@ -27,6 +27,43 @@
       margin: 0;
       padding: 0;
       overflow-x: hidden;
+      position: relative;
+    }
+
+    /* 夢幻常駐星塵微粒畫布 (全域置底) */
+    #ambientDustCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.65;
+    }
+
+    /* 全螢幕五星出金衝擊波 */
+    #fullscreenGachaFlash {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: radial-gradient(circle at center, rgba(255, 245, 200, 0.95) 0%, rgba(255, 200, 50, 0.6) 40%, rgba(255, 140, 0, 0) 75%);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 9998;
+      transition: opacity 0.08s ease-out;
+    }
+
+    #fullscreenGachaFlash.active {
+      opacity: 1;
+      transition: opacity 0.05s ease-in;
+    }
+
+    #fullscreenGachaFlash.fadeout {
+      opacity: 0;
+      transition: opacity 0.7s cubic-bezier(0.25, 1, 0.5, 1);
     }
 
     .container,
@@ -34,6 +71,22 @@
       max-width: 480px;
       width: 100%;
       margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* 頂部小字註解 (Ruby Annotation) 美化設定：確保向上浮動不擠壓行高 */
+    ruby {
+      ruby-align: center;
+      ruby-position: over;
+    }
+    rt {
+      font-size: 0.52em;
+      color: #ffd700;
+      letter-spacing: 1.5px;
+      font-weight: 500;
+      transform: translateY(-4px);
+      display: inline-block;
     }
 
     .text-screen {
@@ -44,7 +97,7 @@
       white-space: pre-wrap;
       word-break: normal;
       text-align: justify;
-      text-shadow: 0 0 10px rgba(255, 255, 255, 0.15);
+      text-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
     }
 
     .text-insert-line {
@@ -69,8 +122,12 @@
       align-items: center;
       padding: clamp(30px, 6vh, 60px) 20px;
       position: relative;
+      z-index: 2;
     }
 
+    /* ============================================================
+       封面緞帶禮盒 (垂直往上、橫向往右拆開動畫)
+       ============================================================ */
     #startOverlay {
       position: fixed;
       top: 0;
@@ -78,7 +135,7 @@
       width: 100vw;
       height: 100vh;
       height: 100dvh;
-      background: radial-gradient(circle at center, #18181c 0%, #0d0d0f 100%);
+      background: radial-gradient(circle at center, #19191d 0%, #0c0c0e 100%);
       z-index: 9999;
       transition: opacity 0.8s ease;
       overflow: hidden;
@@ -88,13 +145,25 @@
       position: absolute;
       top: 0;
       left: 50%;
-      width: clamp(40px, 8vw, 56px);
+      width: clamp(28px, 5.2vw, 36px);
       height: 100%;
       transform: translateX(-50%);
-      background: linear-gradient(90deg, #9fc8e8 0%, #ffffff 40%, #cde7f7 70%, #9fc8e8 100%);
-      box-shadow: 0 0 20px rgba(159, 200, 232, 0.4);
+      background: linear-gradient(90deg, 
+        #6293b4 0%, 
+        #9dc8e9 16%, 
+        #e3f3fe 40%, 
+        #ffffff 50%, 
+        #e3f3fe 60%, 
+        #9dc8e9 84%, 
+        #6293b4 100%
+      );
+      box-shadow: 
+        0 0 16px rgba(0, 0, 0, 0.95),
+        -6px 0 14px rgba(0, 0, 0, 0.85),
+        6px 0 14px rgba(0, 0, 0, 0.85),
+        0 0 5px rgba(255, 255, 255, 0.4);
       transition: top 0.7s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.7s ease;
-      z-index: 1;
+      z-index: 2;
     }
 
     .ribbon-horizontal {
@@ -102,87 +171,57 @@
       top: 36%;
       left: 0;
       width: 100%;
-      height: clamp(40px, 8vw, 56px);
+      height: clamp(28px, 5.2vw, 36px);
       transform: translateY(-50%);
-      background: linear-gradient(180deg, #9fc8e8 0%, #ffffff 40%, #cde7f7 70%, #9fc8e8 100%);
-      box-shadow: 0 0 20px rgba(159, 200, 232, 0.4);
-      transition: top 0.7s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.7s ease;
+      background: linear-gradient(180deg, 
+        #6293b4 0%, 
+        #9dc8e9 16%, 
+        #e3f3fe 40%, 
+        #ffffff 50%, 
+        #e3f3fe 60%, 
+        #9dc8e9 84%, 
+        #6293b4 100%
+      );
+      box-shadow: 
+        0 0 16px rgba(0, 0, 0, 0.95),
+        0 -6px 14px rgba(0, 0, 0, 0.85),
+        0 6px 14px rgba(0, 0, 0, 0.85),
+        0 0 5px rgba(255, 255, 255, 0.4);
+      transition: left 0.7s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.7s ease;
       z-index: 1;
     }
 
+    /* 拆禮物第一步：豎向緞帶與蝴蝶結往上飛走 */
     #startOverlay.step-untie-v .ribbon-vertical {
       top: -100vh;
       opacity: 0;
     }
 
-    #startOverlay.step-untie-h .ribbon-horizontal {
-      top: -100vh;
-      opacity: 0;
-    }
-
-    .ribbon-bow {
+    .satin-bow-wrapper {
       position: absolute;
       top: 36%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 90px;
-      height: 90px;
-      z-index: 2;
-      filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.8));
+      width: clamp(230px, 46vw, 290px);
+      height: auto;
+      z-index: 4;
+      filter: 
+        drop-shadow(0 4px 6px rgba(0, 0, 0, 0.9))
+        drop-shadow(0 16px 24px rgba(0, 0, 0, 0.95))
+        drop-shadow(0 2px 14px rgba(157, 200, 233, 0.25));
       transition: top 0.65s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.65s ease;
+      pointer-events: none;
     }
 
-    #startOverlay.step-untie-bow .ribbon-bow {
+    #startOverlay.step-untie-bow .satin-bow-wrapper {
       top: 0px;
       opacity: 0;
     }
 
-    .bow-loop-left, .bow-loop-right {
-      position: absolute;
-      top: 14px;
-      width: 46px;
-      height: 30px;
-      background: linear-gradient(135deg, #ffffff, #a8d4f0);
-      border-radius: 50% 50% 10% 50%;
-    }
-    .bow-loop-left {
-      left: 2px;
-      transform: rotate(-30deg);
-    }
-    .bow-loop-right {
-      right: 2px;
-      border-radius: 50% 50% 50% 10%;
-      transform: rotate(30deg);
-    }
-
-    .bow-center-knot {
-      position: absolute;
-      top: 18px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 24px;
-      height: 22px;
-      background: linear-gradient(to bottom, #ffffff, #cde7f7);
-      border-radius: 6px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
-    }
-
-    .bow-tail-left, .bow-tail-right {
-      position: absolute;
-      top: 36px;
-      width: 15px;
-      height: 50px;
-      background: linear-gradient(to bottom, #ffffff, #9fc8e8);
-    }
-    .bow-tail-left {
-      left: 20px;
-      transform: rotate(25deg);
-      clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 85%, 0 100%);
-    }
-    .bow-tail-right {
-      right: 20px;
-      transform: rotate(-25deg);
-      clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 85%, 0 100%);
+    /* 拆禮物第二步：橫向緞帶往右側滑出抽離 */
+    #startOverlay.step-untie-h .ribbon-horizontal {
+      left: 100vw;
+      opacity: 0;
     }
 
     .gift-btn-content {
@@ -190,7 +229,7 @@
       top: 66%;
       left: 50%;
       transform: translate(-50%, -50%);
-      z-index: 4;
+      z-index: 5;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -215,16 +254,25 @@
       letter-spacing: 3px;
       border-radius: 40px;
       cursor: pointer;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(205, 231, 247, 0.2);
-      transition: all 0.3s ease;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.65), inset 0 0 12px rgba(205, 231, 247, 0.2);
+      opacity: 0;
+      transform: translateY(18px);
+      pointer-events: none;
+      transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1), transform 1s cubic-bezier(0.25, 1, 0.5, 1), background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
+    }
+
+    .start-btn.fade-in {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
     }
 
     .start-btn:hover {
-      background: rgba(205, 231, 247, 0.2);
-      border-color: #ffffff;
-      color: #ffffff;
-      box-shadow: 0 0 25px rgba(159, 200, 232, 0.4);
-      transform: scale(1.03);
+      background: rgba(205, 231, 247, 0.22);
+      border-color: #ffd700;
+      color: #ffd700;
+      box-shadow: 0 0 28px rgba(255, 215, 0, 0.5);
+      transform: translateY(-2px) scale(1.03);
     }
 
     .start-tip {
@@ -232,6 +280,14 @@
       font-size: 0.85rem;
       color: #8899a6;
       letter-spacing: 1px;
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1), transform 1s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .start-tip.fade-in {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .cursor {
@@ -293,12 +349,14 @@
       margin-right: 8px;
       border: 1px solid rgba(255, 255, 255, 0.25);
       flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(142, 92, 168, 0.4);
     }
 
     .avatar.boss {
       background: #4a1e1e;
       color: #ff9999;
       border-color: #7a2e2e;
+      box-shadow: 0 2px 8px rgba(122, 46, 46, 0.4);
     }
 
     .bubble {
@@ -308,6 +366,7 @@
       line-height: 1.45;
       border-radius: 16px;
       word-break: break-word;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     }
 
     .bubble.me {
@@ -343,6 +402,7 @@
       transition: opacity 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       margin-bottom: 18px;
       text-align: center;
+      width: 100%;
     }
 
     .meme-container.show {
@@ -351,9 +411,8 @@
     }
 
     .meme-img {
-      width: 82%;
-      max-width: 280px;
-      border-radius: 12px;
+      width: 100%;
+      border-radius: 14px;
       background: #ffffff;
       padding: 6px;
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
@@ -534,37 +593,73 @@
       align-items: center;
       margin: 18px auto;
       opacity: 0;
-      transform: translateY(16px);
-      transition: opacity 0.5s ease, transform 0.5s ease;
+      transform: translateY(20px) rotate(-1deg);
+      transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
       width: 100%;
     }
 
     .center-photo-wrap.show {
       opacity: 1;
-      transform: translateY(0);
+      transform: translateY(0) rotate(0deg);
+    }
+
+    .film-frame {
+      position: relative;
+      width: 100%;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.75), 0 0 18px rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+    }
+
+    .film-frame::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      box-shadow: inset 0 0 35px rgba(0, 0, 0, 0.45);
+      pointer-events: none;
+      border-radius: 16px;
     }
 
     .featured-photo {
       width: 100%;
-      border-radius: 14px;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
       display: block;
       object-fit: cover;
     }
 
+    /* ============================================================
+       第八幕：星穹鐵道抽卡出金舞臺 (與聊天室等寬)
+       ============================================================ */
     .gacha-stage-container {
       position: relative;
-      max-width: 380px;
       width: 100%;
       aspect-ratio: 16 / 9;
-      border-radius: 14px;
+      border-radius: 16px;
       overflow: hidden;
       display: flex;
       justify-content: center;
       align-items: center;
-      background: #000;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+      background: #000000;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: transform 0.1s ease, border-color 0.5s ease, box-shadow 0.5s ease;
+    }
+
+    .gacha-stage-container.shaking {
+      animation: gachaShake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+      border-color: rgba(255, 220, 100, 0.5);
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.8), 0 0 28px rgba(255, 215, 0, 0.35);
+    }
+
+    @keyframes gachaShake {
+      10%, 90% { transform: translate3d(-2px, -1px, 0) scale(1.02); }
+      20%, 80% { transform: translate3d(3px, 2px, 0) scale(1.02); }
+      30%, 50%, 70% { transform: translate3d(-3px, -2px, 0) scale(1.01); }
+      40%, 60% { transform: translate3d(3px, 1px, 0) scale(1.01); }
+      100% { transform: translate3d(0, 0, 0) scale(1); }
     }
 
     .gacha-base-img {
@@ -574,7 +669,13 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      opacity: 0;
+      transition: opacity 0.5s ease;
       display: block;
+    }
+
+    .gacha-base-img.visible {
+      opacity: 1;
     }
 
     .gacha-face-img {
@@ -585,7 +686,7 @@
       height: 100%;
       object-fit: cover;
       opacity: 0;
-      transition: opacity 0.8s ease-in-out;
+      transition: opacity 0.6s cubic-bezier(0.2, 0.9, 0.3, 1);
       display: block;
       z-index: 2;
     }
@@ -600,30 +701,57 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: radial-gradient(circle at 55% 48%, rgba(255, 230, 100, 0.85) 0%, rgba(255, 180, 0, 0.4) 40%, transparent 70%);
+      background: radial-gradient(circle at 55% 48%, rgba(255, 250, 210, 0.95) 0%, rgba(255, 190, 40, 0.6) 35%, transparent 70%);
       opacity: 0;
       pointer-events: none;
       z-index: 3;
-      transition: opacity 0.3s ease;
     }
 
     .gacha-flash-fx.flashing {
-      animation: gachaFlashPulse 0.8s ease-out forwards;
+      animation: gachaFlashPulse 0.9s cubic-bezier(0.1, 0.9, 0.2, 1) forwards;
     }
 
     @keyframes gachaFlashPulse {
+      0% { opacity: 0; transform: scale(0.7); }
+      25% { opacity: 1; transform: scale(1.15); }
+      100% { opacity: 0; transform: scale(1.35); }
+    }
+
+    .gacha-rays {
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: conic-gradient(from 0deg, transparent 0deg, rgba(255, 215, 0, 0.25) 20deg, transparent 40deg, rgba(255, 230, 100, 0.3) 60deg, transparent 80deg, rgba(255, 200, 50, 0.25) 120deg, transparent 150deg, rgba(255, 240, 150, 0.35) 180deg, transparent 210deg, rgba(255, 215, 0, 0.25) 240deg, transparent 280deg, rgba(255, 230, 100, 0.3) 320deg, transparent 360deg);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 1;
+      transform-origin: center center;
+    }
+
+    .gacha-rays.spinning {
+      animation: raySpin 6s linear infinite, rayFadeInOut 2.5s ease-out forwards;
+    }
+
+    @keyframes raySpin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes rayFadeInOut {
       0% { opacity: 0; }
-      30% { opacity: 1; }
+      20% { opacity: 0.85; }
       100% { opacity: 0; }
     }
 
     .grad-photo-container {
       position: relative;
       width: 100%;
-      border-radius: 14px;
+      border-radius: 16px;
       overflow: hidden;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.16);
     }
 
     .grad-img {
@@ -646,7 +774,7 @@
       border: 1px solid rgba(255, 255, 255, 0.2);
       border-radius: 16px;
       padding: 10px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.8), 0 0 20px rgba(159, 200, 232, 0.15);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -660,7 +788,6 @@
       transform: translateY(0);
     }
 
-    /* 關鍵：Canvas 設為純黑底，杜絕白光閃爍 */
     #pdfCanvas {
       width: 100%;
       height: auto;
@@ -677,40 +804,239 @@
       letter-spacing: 1px;
     }
 
+    /* ============================================================
+       第十二幕：佈局調整 (標題下方專屬寄語流動區、許願標籤淡出)
+       ============================================================ */
+    #section12 {
+      padding: 25px 12px 0 12px !important;
+      justify-content: flex-end !important;
+      overflow: hidden;
+    }
+
     .final-blessing-container {
-      max-width: 480px;
+      max-width: 520px;
       width: 100%;
       text-align: center;
-      padding: 20px;
+      padding: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-end;
+      position: relative;
+      height: 100%;
+    }
+
+    .top-content-wrapper {
+      position: absolute;
+      top: 6vh;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 8;
     }
 
     .blessing-title {
-      font-size: clamp(1.25rem, 4vw, 1.55rem);
-      font-weight: 600;
-      color: #ffdf79;
-      letter-spacing: 2px;
-      line-height: 1.8;
-      text-shadow: 0 0 15px rgba(255, 223, 121, 0.4);
-      margin-bottom: 16px;
+      font-size: clamp(1.25rem, 4.2vw, 1.58rem);
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      line-height: 1.6;
+      background: linear-gradient(135deg, #fff2c2 0%, #ffdf79 30%, #ffd043 50%, #ffffff 70%, #ffdf79 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: goldShimmer 4s ease-in-out infinite;
+      filter: drop-shadow(0 0 14px rgba(255, 223, 121, 0.5));
+      margin-bottom: 8px;
+    }
+
+    @keyframes goldShimmer {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .post-blow-message-wrap {
+      opacity: 0;
+      transform: translateY(-10px);
+      pointer-events: none;
+      transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1), transform 1s cubic-bezier(0.25, 1, 0.5, 1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 4px;
+    }
+
+    .post-blow-message-wrap.active {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
     }
 
     .blessing-sub {
-      font-size: clamp(0.95rem, 3vw, 1.05rem);
-      line-height: 2.2;
+      font-size: clamp(0.92rem, 2.8vw, 1.02rem);
+      line-height: 2.1;
       color: #eaeaea;
       letter-spacing: 1px;
       text-align: center;
-      text-shadow: 0 0 10px rgba(255, 255, 255, 0.15);
+      text-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
+    }
+
+    .wish-indicator-wrap {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 8px 0 10px 0;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1), transform 1s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .wish-indicator-wrap.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .wish-indicator-wrap.fade-out {
+      opacity: 0;
+      transform: translateY(-10px);
+      pointer-events: none;
+    }
+
+    .wish-badge {
+      font-size: 0.78rem;
+      padding: 4px 12px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 223, 121, 0.35);
+      color: #8899a6;
+      background: rgba(255, 255, 255, 0.05);
+      transition: all 0.4s ease;
+    }
+
+    .wish-badge.granted {
+      border-color: #ffd700;
+      color: #ffd700;
+      background: rgba(255, 215, 0, 0.16);
+      box-shadow: 0 0 12px rgba(255, 215, 0, 0.45);
+    }
+
+    .giant-cake-stage {
+      position: relative;
+      width: 100%;
+      max-width: 500px;
+      height: 420px;
+      margin-bottom: 0px;
+      opacity: 0;
+      transform: translateY(60px);
+      transition: opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1), transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .giant-cake-stage.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .flame-2 {
+      transform-origin: 228px 46px;
+      animation: flameFlicker 1.8s ease-in-out infinite alternate;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .flame-1 {
+      transform-origin: 272px 46px;
+      animation: flameFlicker 1.9s ease-in-out 0.25s infinite alternate;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    @keyframes flameFlicker {
+      0% { transform: scale(1) rotate(-1.5deg); filter: drop-shadow(0 0 10px rgba(255, 180, 0, 0.85)); }
+      50% { transform: scale(1.08, 0.95) rotate(1.5deg); filter: drop-shadow(0 0 18px rgba(255, 225, 60, 1)); }
+      100% { transform: scale(0.96, 1.05) rotate(-0.5deg); filter: drop-shadow(0 0 14px rgba(255, 150, 0, 0.9)); }
+    }
+
+    .candle-flame.extinguished {
+      opacity: 0;
+      transform: scale(0.2) translateY(-10px);
+    }
+
+    .smoke-puff {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .smoke-puff.drifting {
+      animation: smokeRise 2.4s ease-out forwards;
+    }
+
+    @keyframes smokeRise {
+      0% { opacity: 0.85; transform: translateY(0) scale(0.6); }
+      50% { opacity: 0.45; transform: translateY(-30px) scale(1.5) skewX(6deg); }
+      100% { opacity: 0; transform: translateY(-65px) scale(2.4) skewX(-10deg); }
+    }
+
+    .cake-actions-overlay {
+      position: absolute;
+      top: 66%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      z-index: 10;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1), transform 1s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .cake-actions-overlay.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .wish-btn, .blow-btn {
+      background: rgba(22, 22, 26, 0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1.5px solid rgba(255, 223, 121, 0.7);
+      color: #ffdf79;
+      padding: 12px 32px;
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 2.5px;
+      border-radius: 35px;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8), 0 0 16px rgba(255, 223, 121, 0.25);
+      transition: all 0.3s ease;
+    }
+
+    .wish-btn:hover, .blow-btn:hover {
+      background: rgba(40, 36, 25, 0.95);
+      border-color: #ffd700;
+      color: #ffd700 !important;
+      box-shadow: 0 0 28px rgba(255, 215, 0, 0.6);
+      transform: translateY(-2px);
+    }
+
+    .blow-hint-tip {
+      font-size: 0.82rem;
+      color: #6a5e4d;
+      letter-spacing: 1px;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 4px 16px;
+      border-radius: 14px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+      font-weight: 500;
+      transition: all 0.4s ease;
     }
 
     .footer-credits {
-      margin-top: 36px;
+      margin-top: 14px;
       font-size: 0.8rem;
-      color: #777782;
+      color: #888898;
       letter-spacing: 1.5px;
       opacity: 0;
       transition: opacity 1.2s ease;
@@ -721,21 +1047,21 @@
     }
 
     .replay-btn {
-      margin-top: 26px;
-      background: rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 223, 121, 0.4);
+      margin-top: 14px;
+      background: rgba(20, 20, 24, 0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 223, 121, 0.5);
       color: #ffdf79;
-      padding: 12px 30px;
-      font-size: 0.95rem;
+      padding: 10px 32px;
+      font-size: 0.92rem;
       letter-spacing: 2px;
       border-radius: 30px;
       cursor: pointer;
       opacity: 0;
       transform: translateY(10px);
       transition: all 0.5s ease;
-      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
     }
 
     .replay-btn.show {
@@ -744,31 +1070,94 @@
     }
 
     .replay-btn:hover {
-      background: rgba(255, 223, 121, 0.2);
-      border-color: #ffdf79;
-      box-shadow: 0 0 20px rgba(255, 223, 121, 0.4);
-      transform: translateY(-2px) scale(1.02);
+      background: rgba(40, 36, 25, 0.95);
+      border-color: #ffd700;
+      color: #ffd700 !important;
+      box-shadow: 0 0 25px rgba(255, 215, 0, 0.55);
+      transform: translateY(-2px) scale(1.03);
     }
   </style>
 </head>
 
 <body>
 
+  <!-- 全螢幕金色星塵微粒常駐層 -->
+  <canvas id="ambientDustCanvas"></canvas>
+
+  <!-- 全螢幕五星出金衝擊波 -->
+  <div id="fullscreenGachaFlash"></div>
+
   <div id="startOverlay">
     <div class="ribbon-vertical"></div>
     <div class="ribbon-horizontal"></div>
 
-    <div class="ribbon-bow">
-      <div class="bow-loop-left"></div>
-      <div class="bow-loop-right"></div>
-      <div class="bow-tail-left"></div>
-      <div class="bow-tail-right"></div>
-      <div class="bow-center-knot"></div>
+    <div class="satin-bow-wrapper">
+      <svg viewBox="0 0 300 240" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: auto; display: block;">
+        <defs>
+          <linearGradient id="satinMain" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#ffffff"/>
+            <stop offset="35%" stop-color="#cbe6f8"/>
+            <stop offset="70%" stop-color="#91c1e5"/>
+            <stop offset="100%" stop-color="#5a8fb7"/>
+          </linearGradient>
+
+          <linearGradient id="satinShadow" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#345e81"/>
+            <stop offset="50%" stop-color="#659bc4"/>
+            <stop offset="100%" stop-color="#a8d3f0"/>
+          </linearGradient>
+
+          <linearGradient id="satinHighlight" x1="0%" y1="0%" x2="100%" y2="50%">
+            <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/>
+            <stop offset="60%" stop-color="#ffffff" stop-opacity="0.25"/>
+            <stop offset="100%" stop-color="#9fc8e8" stop-opacity="0"/>
+          </linearGradient>
+
+          <radialGradient id="satinKnot" cx="45%" cy="35%" r="65%">
+            <stop offset="0%" stop-color="#ffffff"/>
+            <stop offset="45%" stop-color="#d6edfc"/>
+            <stop offset="80%" stop-color="#8bbde4"/>
+            <stop offset="100%" stop-color="#5083aa"/>
+          </radialGradient>
+        </defs>
+
+        <g>
+          <path d="M 130,125 C 120,165 95,195 70,225 L 98,205 L 126,228 C 136,190 148,155 152,125 Z" fill="url(#satinMain)" />
+          <path d="M 130,125 C 120,165 95,195 70,225 L 98,205 L 105,170 C 118,150 126,135 130,125 Z" fill="url(#satinShadow)" opacity="0.45" />
+          <path d="M 128,125 C 122,160 108,185 96,204" stroke="#ffffff" stroke-width="2.5" opacity="0.6" stroke-linecap="round"/>
+        </g>
+
+        <g>
+          <path d="M 170,125 C 180,165 205,195 230,225 L 202,205 L 174,228 C 164,190 152,155 148,125 Z" fill="url(#satinMain)" />
+          <path d="M 170,125 C 180,165 205,195 230,225 L 202,205 L 195,170 C 182,150 174,135 170,125 Z" fill="url(#satinShadow)" opacity="0.45" />
+          <path d="M 172,125 C 178,160 192,185 204,204" stroke="#ffffff" stroke-width="2.5" opacity="0.6" stroke-linecap="round"/>
+        </g>
+
+        <g>
+          <path d="M 140,110 C 110,65 50,30 25,65 C 5,90 20,135 75,135 C 110,135 135,120 140,110 Z" fill="url(#satinShadow)" />
+          <path d="M 138,105 C 105,50 48,25 25,60 C 12,80 28,118 72,126 C 108,132 132,118 138,105 Z" fill="url(#satinMain)" />
+          <path d="M 45,72 C 65,65 105,82 135,108" stroke="#2c5573" stroke-width="4.5" opacity="0.55" stroke-linecap="round"/>
+          <path d="M 28,58 C 50,28 102,48 136,102" stroke="url(#satinHighlight)" stroke-width="4" stroke-linecap="round"/>
+        </g>
+
+        <g>
+          <path d="M 160,110 C 190,65 250,30 275,65 C 295,90 280,135 225,135 C 190,135 165,120 160,110 Z" fill="url(#satinShadow)" />
+          <path d="M 162,105 C 195,50 252,25 275,60 C 288,80 272,118 228,126 C 192,132 168,118 162,105 Z" fill="url(#satinMain)" />
+          <path d="M 255,72 C 235,65 195,82 165,108" stroke="#2c5573" stroke-width="4.5" opacity="0.55" stroke-linecap="round"/>
+          <path d="M 272,58 C 250,28 198,48 164,102" stroke="url(#satinHighlight)" stroke-width="4" stroke-linecap="round"/>
+        </g>
+
+        <g>
+          <path d="M 132,95 C 132,86 168,86 168,95 C 172,110 170,124 166,132 C 160,136 140,136 134,132 C 130,124 128,110 132,95 Z" fill="url(#satinKnot)" stroke="rgba(255,255,255,0.7)" stroke-width="1.5"/>
+          <path d="M 143,92 C 144,105 143,122 142,133" stroke="#366487" stroke-width="2" opacity="0.6"/>
+          <path d="M 155,92 C 156,105 157,122 158,133" stroke="#ffffff" stroke-width="2" opacity="0.75"/>
+        </g>
+      </svg>
     </div>
 
-    <div class="gift-btn-content">
-      <button class="start-btn" onclick="startExperience()">✦ 打開禮物 ✦</button>
-      <div class="start-tip">建議開啟音量以獲取最佳體驗</div>
+    <div class="gift-btn-content" id="giftBtnContent">
+      <button class="start-btn" id="startBtn" onclick="startExperience()">✦ 打開禮物 ✦</button>
+      <div class="start-tip" id="startTip">建議開啟音量以獲取最佳體驗</div>
     </div>
   </div>
 
@@ -934,6 +1323,7 @@
     </div>
   </section>
 
+  <!-- 第七幕：MeAndYouAndYourFriend.jpg 膠卷相框質感 -->
   <section class="screen-section" id="section7">
     <div class="container">
       <div>
@@ -952,11 +1342,14 @@
       </div>
 
       <div class="center-photo-wrap" id="s7_photo_wrap">
-        <img src="MeAndYouAndYourFriend.jpg" alt="三人行日常" class="featured-photo" />
+        <div class="film-frame">
+          <img src="MeAndYouAndYourFriend.jpg" alt="三人行日常" class="featured-photo" />
+        </div>
       </div>
     </div>
   </section>
 
+  <!-- 第八幕：星穹鐵道五星抽卡出金 (與聊天室等寬) -->
   <section class="screen-section" id="section8">
     <div class="container">
       <div>
@@ -965,7 +1358,8 @@
 
       <div class="center-photo-wrap" id="s8_photo_wrap_1">
         <div class="gacha-stage-container" id="s8_card_1">
-          <img src="Lottery.png" alt="第十抽流星" class="gacha-base-img" />
+          <div class="gacha-rays" id="s8_rays_1"></div>
+          <img src="Lottery.png" alt="第十抽流星" id="s8_base_1" class="gacha-base-img" />
           <img src="Lottery_1.png" alt="雷狗男朋友出金" id="s8_face_1" class="gacha-face-img" />
           <div class="gacha-flash-fx" id="s8_flash_1"></div>
         </div>
@@ -977,7 +1371,8 @@
 
       <div class="center-photo-wrap" id="s8_photo_wrap_2">
         <div class="gacha-stage-container" id="s8_card_2">
-          <img src="Lottery.png" alt="雙金流星" class="gacha-base-img" />
+          <div class="gacha-rays" id="s8_rays_2"></div>
+          <img src="Lottery.png" alt="雙金流星" id="s8_base_2" class="gacha-base-img" />
           <img src="Lottery_2.png" alt="女人雙金出金" id="s8_face_2" class="gacha-face-img" />
           <div class="gacha-flash-fx" id="s8_flash_2"></div>
         </div>
@@ -989,6 +1384,7 @@
     </div>
   </section>
 
+  <!-- 第九幕：畢業合照偏右特寫放大 75% -->
   <section class="screen-section" id="section9">
     <div class="container">
       <div>
@@ -1003,6 +1399,7 @@
     </div>
   </section>
 
+  <!-- 第十幕：BestFriend.png 齊平寬度與膠卷光影 -->
   <section class="screen-section" id="section10">
     <div class="container">
       <div>
@@ -1010,11 +1407,14 @@
       </div>
 
       <div class="center-photo-wrap" id="s10_photo_wrap" style="margin-top: 20px;">
-        <img src="BestFriend.png" alt="最好的朋友" class="featured-photo" />
+        <div class="film-frame">
+          <img src="BestFriend.png" alt="最好的朋友" class="featured-photo" />
+        </div>
       </div>
     </div>
   </section>
 
+  <!-- 第十一幕：Storyboard PDF (每1秒自動切換一張) -->
   <section class="screen-section" id="section11">
     <div class="container">
       <div>
@@ -1028,20 +1428,259 @@
     </div>
   </section>
 
+  <!-- 第十二幕：頂部標題（僅在此處帶有徐霈綺小字註解）、歌唱完出按鈕、許願與吹蠟燭 -->
   <section class="screen-section" id="section12">
     <div class="final-blessing-container">
-      <div>
+      <div class="top-content-wrapper">
         <div id="typewriter12_title" class="blessing-title"></div>
+
+        <div class="post-blow-message-wrap" id="postBlowMsgWrap">
+          <div>
+            <span id="typewriter12_body" class="blessing-sub"></span><span id="cursor12" class="cursor" style="display:none;"></span>
+          </div>
+          <div class="footer-credits" id="footerCredits">にゃ熊 & Gemini 共同執筆</div>
+          <button class="replay-btn" id="replayBtn" onclick="replayExperience()">✦ 再看一次 ✦</button>
+        </div>
       </div>
-      <div style="margin-top: 10px;">
-        <span id="typewriter12_body" class="blessing-sub"></span><span id="cursor12" class="cursor" style="display:none;"></span>
+
+      <div class="wish-indicator-wrap" id="wishIndicatorWrap">
+        <span class="wish-badge" id="wishBadge1">✦ 願望一</span>
+        <span class="wish-badge" id="wishBadge2">✦ 願望二</span>
+        <span class="wish-badge" id="wishBadge3">✦ 願望三</span>
       </div>
-      <div class="footer-credits" id="footerCredits">にゃ熊 & Gemini 共同執筆</div>
-      <button class="replay-btn" id="replayBtn" onclick="replayExperience()">✦ 再看一次 ✦</button>
+
+      <div class="giant-cake-stage" id="giantCakeStage">
+        <svg viewBox="0 0 500 440" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: 100%; display: block;">
+          <defs>
+            <linearGradient id="ivoryBottomGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#cfc7b8"/>
+              <stop offset="12%" stop-color="#ece5d8"/>
+              <stop offset="35%" stop-color="#faf7f0"/>
+              <stop offset="50%" stop-color="#ffffff"/>
+              <stop offset="65%" stop-color="#faf7f0"/>
+              <stop offset="88%" stop-color="#ece5d8"/>
+              <stop offset="100%" stop-color="#cfc7b8"/>
+            </linearGradient>
+
+            <linearGradient id="ivoryTopGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#d6cec0"/>
+              <stop offset="15%" stop-color="#f0e9dc"/>
+              <stop offset="40%" stop-color="#fdfbf7"/>
+              <stop offset="50%" stop-color="#ffffff"/>
+              <stop offset="60%" stop-color="#fdfbf7"/>
+              <stop offset="85%" stop-color="#f0e9dc"/>
+              <stop offset="100%" stop-color="#d6cec0"/>
+            </linearGradient>
+
+            <linearGradient id="dripCreamShadow" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#ffffff"/>
+              <stop offset="80%" stop-color="#f2ebe0"/>
+              <stop offset="100%" stop-color="#d5caa8"/>
+            </linearGradient>
+
+            <linearGradient id="candleGoldGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#a87b12"/>
+              <stop offset="30%" stop-color="#ffe479"/>
+              <stop offset="50%" stop-color="#fff9df"/>
+              <stop offset="70%" stop-color="#ffd54f"/>
+              <stop offset="100%" stop-color="#9a700d"/>
+            </linearGradient>
+
+            <radialGradient id="holeShadow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#736654" stop-opacity="0.8"/>
+              <stop offset="60%" stop-color="#baa990" stop-opacity="0.4"/>
+              <stop offset="100%" stop-color="#faf7f0" stop-opacity="0"/>
+            </radialGradient>
+
+            <radialGradient id="flameGlow" cx="50%" cy="40%" r="60%">
+              <stop offset="0%" stop-color="#ffffff"/>
+              <stop offset="30%" stop-color="#ffeb78"/>
+              <stop offset="70%" stop-color="#ff8c00"/>
+              <stop offset="100%" stop-color="#ff2200"/>
+            </radialGradient>
+          </defs>
+
+          <!-- 下層大奶油蛋糕 -->
+          <g>
+            <path d="M 5,235 C 5,235 5,438 5,440 L 495,440 C 495,438 495,235 495,235 Z" fill="url(#ivoryBottomGrad)" />
+            <ellipse cx="250" cy="235" rx="245" ry="36" fill="#e8dfce" />
+            <ellipse cx="250" cy="232" rx="242" ry="33" fill="#f9f6ef" />
+
+            <path d="M 5,235 
+                     C 45,285 85,285 125,250 
+                     C 165,290 215,290 255,252 
+                     C 295,290 345,290 385,252 
+                     C 425,285 465,285 495,235 
+                     C 460,265 370,278 250,278 
+                     C 130,278 40,265 5,235 Z" fill="url(#dripCreamShadow)" opacity="0.95" />
+
+            <circle cx="80" cy="305" r="7" fill="#ffd700" opacity="0.9"/>
+            <circle cx="150" cy="320" r="7" fill="#ffffff" stroke="#c8bcab" stroke-width="2"/>
+            <circle cx="250" cy="326" r="7.5" fill="#ffd700" opacity="0.9"/>
+            <circle cx="350" cy="320" r="7" fill="#ffffff" stroke="#c8bcab" stroke-width="2"/>
+            <circle cx="420" cy="305" r="7" fill="#ffd700" opacity="0.9"/>
+          </g>
+
+          <!-- 上層大奶油蛋糕 -->
+          <g>
+            <path d="M 80,125 C 80,125 80,222 80,225 C 80,250 420,250 420,225 C 420,222 420,125 420,125 Z" fill="url(#ivoryTopGrad)" />
+            <ellipse cx="250" cy="125" rx="170" ry="28" fill="#e2d8c5" />
+            <ellipse cx="250" cy="122" rx="166" ry="25" fill="#fcfaf5" />
+
+            <path d="M 80,125 
+                     C 115,165 150,165 185,142 
+                     C 220,172 275,172 310,144 
+                     C 345,170 385,170 420,125 
+                     C 390,152 325,160 250,160 
+                     C 175,160 110,152 80,125 Z" fill="url(#dripCreamShadow)" opacity="0.95" />
+
+            <circle cx="130" cy="180" r="5.5" fill="#ffd700" opacity="0.85"/>
+            <circle cx="200" cy="192" r="5.5" fill="#ffffff" stroke="#c8bcab" stroke-width="1.8"/>
+            <circle cx="300" cy="192" r="5.5" fill="#ffd700" opacity="0.85"/>
+            <circle cx="370" cy="180" r="5.5" fill="#ffffff" stroke="#c8bcab" stroke-width="1.8"/>
+          </g>
+
+          <!-- 21 歲金色立體蠟燭 (帶有插進蛋糕的支撐插籤) -->
+          <g id="candle21Group">
+            <ellipse cx="227" cy="126" rx="10" ry="4.5" fill="url(#holeShadow)" />
+            <ellipse cx="270" cy="126" rx="9" ry="4.5" fill="url(#holeShadow)" />
+
+            <rect x="225.5" y="110" width="3.5" height="18" rx="1.5" fill="#d9d2c5" stroke="#7a7060" stroke-width="0.8" />
+            <rect x="268.5" y="110" width="3.5" height="18" rx="1.5" fill="#d9d2c5" stroke="#7a7060" stroke-width="0.8" />
+
+            <circle cx="222" cy="125" r="3.2" fill="#ffffff" stroke="#d5caa8" stroke-width="0.8"/>
+            <circle cx="232" cy="125" r="3.5" fill="#ffffff" stroke="#d5caa8" stroke-width="0.8"/>
+            <circle cx="266" cy="125" r="3.2" fill="#ffffff" stroke="#d5caa8" stroke-width="0.8"/>
+            <circle cx="275" cy="125" r="3.4" fill="#ffffff" stroke="#d5caa8" stroke-width="0.8"/>
+
+            <!-- 數字「2」 -->
+            <line x1="228" y1="52" x2="228" y2="40" stroke="#262626" stroke-width="2.5" stroke-linecap="round" />
+            <path d="M 215,64 C 215,50 240,50 240,64 C 240,74 216,92 215,108 L 242,108 L 242,118 L 212,118 L 212,106 C 214,94 230,80 230,68 C 230,60 222,60 220,64 Z" fill="url(#candleGoldGrad)" stroke="#8e670c" stroke-width="1.5" stroke-linejoin="round" />
+
+            <!-- 數字「1」 -->
+            <line x1="272" y1="52" x2="272" y2="40" stroke="#262626" stroke-width="2.5" stroke-linecap="round" />
+            <path d="M 262,64 L 272,56 L 272,118 L 260,118 L 260,108 L 270,108 L 270,68 L 260,74 Z" fill="url(#candleGoldGrad)" stroke="#8e670c" stroke-width="1.5" stroke-linejoin="round" />
+          </g>
+
+          <!-- 飄散輕煙 -->
+          <g class="smoke-puff" id="candleSmoke">
+            <path d="M 228,38 C 222,26 235,14 226,0 C 220,-10 232,-22 228,-36" stroke="rgba(240,240,240,0.85)" stroke-width="4" stroke-linecap="round" fill="none"/>
+            <circle cx="225" cy="14" r="6" fill="rgba(245,245,245,0.5)" />
+            <path d="M 272,38 C 266,26 280,14 270,0 C 265,-10 276,-22 272,-36" stroke="rgba(240,240,240,0.85)" stroke-width="4" stroke-linecap="round" fill="none"/>
+            <circle cx="275" cy="10" r="6.5" fill="rgba(245,245,245,0.5)" />
+          </g>
+
+          <!-- 雙動態燃燒燭火 -->
+          <g class="candle-flame flame-2" id="candleFlame2">
+            <ellipse cx="228" cy="26" rx="15" ry="20" fill="rgba(255, 200, 0, 0.3)" filter="blur(4px)" />
+            <path d="M 228,8 C 235,20 240,28 236,36 C 232,44 224,44 220,36 C 216,28 221,20 228,8 Z" fill="url(#flameGlow)" />
+            <ellipse cx="228" cy="32" rx="3.5" ry="6.5" fill="#ffffff" opacity="0.95" />
+          </g>
+          <g class="candle-flame flame-1" id="candleFlame1">
+            <ellipse cx="272" cy="26" rx="15" ry="20" fill="rgba(255, 200, 0, 0.3)" filter="blur(4px)" />
+            <path d="M 272,8 C 279,20 284,28 280,36 C 276,44 268,44 264,36 C 260,28 265,20 272,8 Z" fill="url(#flameGlow)" />
+            <ellipse cx="272" cy="32" rx="3.5" ry="6.5" fill="#ffffff" opacity="0.95" />
+          </g>
+        </svg>
+
+        <!-- 歌唱完才漸顯的許願控制器 -->
+        <div class="cake-actions-overlay" id="cakeActions">
+          <button class="wish-btn" id="wishBtn" onclick="makeWishStep()">✦ 許下第 1 個願望 ✦</button>
+          <button class="blow-btn" id="blowBtn" style="display:none;" onclick="extinguishCandle(true)">🌬️ 吹滅蠟燭（點擊吹滅或對麥克風吹氣）</button>
+          <div class="blow-hint-tip" id="blowHint">輕輕點擊，把願望送向星空</div>
+        </div>
+      </div>
     </div>
   </section>
 
   <script>
+    // ============================================================
+    // 1. 全域背景常駐星塵微粒系統 (Ambient Particle Canvas)
+    // ============================================================
+    const dustCanvas = document.getElementById("ambientDustCanvas");
+    const dustCtx = dustCanvas.getContext("2d");
+    let particles = [];
+    const particleCount = 42;
+
+    function resizeDustCanvas() {
+      dustCanvas.width = window.innerWidth;
+      dustCanvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", resizeDustCanvas);
+    resizeDustCanvas();
+
+    class Particle {
+      constructor() {
+        this.reset(true);
+      }
+      reset(initial = false) {
+        this.x = Math.random() * dustCanvas.width;
+        this.y = initial ? Math.random() * dustCanvas.height : dustCanvas.height + 10;
+        this.size = Math.random() * 2.2 + 0.8;
+        this.speedY = Math.random() * 0.45 + 0.15;
+        this.speedX = (Math.random() - 0.5) * 0.25;
+        this.opacity = Math.random() * 0.6 + 0.2;
+        this.fadeSpeed = Math.random() * 0.008 + 0.003;
+        this.fadingIn = true;
+      }
+      update() {
+        this.y -= this.speedY;
+        this.x += this.speedX;
+
+        if (this.fadingIn) {
+          this.opacity += this.fadeSpeed;
+          if (this.opacity >= 0.75) this.fadingIn = false;
+        } else {
+          this.opacity -= this.fadeSpeed;
+          if (this.opacity <= 0.15) this.fadingIn = true;
+        }
+
+        if (this.y < -10 || this.x < -10 || this.x > dustCanvas.width + 10) {
+          this.reset();
+        }
+      }
+      draw() {
+        dustCtx.beginPath();
+        dustCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        dustCtx.fillStyle = `rgba(255, 230, 150, ${this.opacity})`;
+        dustCtx.shadowBlur = 8;
+        dustCtx.shadowColor = "rgba(255, 220, 100, 0.6)";
+        dustCtx.fill();
+      }
+    }
+
+    for (let i = 0; i < particleCount; i++) {
+      particles.push(new Particle());
+    }
+
+    function animateDust() {
+      dustCtx.clearRect(0, 0, dustCanvas.width, dustCanvas.height);
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+      requestAnimationFrame(animateDust);
+    }
+    animateDust();
+
+    // ============================================================
+    // 首頁按鈕與提示文字：階梯式延遲平滑浮現
+    // ============================================================
+    window.addEventListener("DOMContentLoaded", () => {
+      setTimeout(() => {
+        const btn = document.getElementById("startBtn");
+        if (btn) btn.classList.add("fade-in");
+      }, 700);
+
+      setTimeout(() => {
+        const tip = document.getElementById("startTip");
+        if (tip) tip.classList.add("fade-in");
+      }, 1300);
+    });
+
+    // ============================================================
+    // 2. 音訊系統 & 音樂盒八音盒《生日快樂歌》中英文版各一遍精準結束
+    // ============================================================
     let audioCtx = null;
 
     function initAudio() {
@@ -1122,19 +1761,32 @@
         osc1.start(now);
         osc1.stop(now + 1.4);
 
-        const bells = [1318.51, 1648.14];
+        const subOsc = audioCtx.createOscillator();
+        const subGain = audioCtx.createGain();
+        subOsc.type = 'sine';
+        subOsc.frequency.setValueAtTime(130, now + 1.2);
+        subOsc.frequency.exponentialRampToValueAtTime(45, now + 1.8);
+        subGain.gain.setValueAtTime(0.001, now + 1.2);
+        subGain.gain.linearRampToValueAtTime(0.22, now + 1.25);
+        subGain.gain.exponentialRampToValueAtTime(0.001, now + 1.9);
+        subOsc.connect(subGain);
+        subGain.connect(audioCtx.destination);
+        subOsc.start(now + 1.2);
+        subOsc.stop(now + 1.9);
+
+        const bells = [1318.51, 1648.14, 2093.00];
         bells.forEach((freq, idx) => {
           const oscBell = audioCtx.createOscillator();
           const gainBell = audioCtx.createGain();
           oscBell.type = 'sine';
-          oscBell.frequency.setValueAtTime(freq, now + 1.2 + idx * 0.08);
-          gainBell.gain.setValueAtTime(0.001, now + 1.2 + idx * 0.08);
-          gainBell.gain.linearRampToValueAtTime(0.16, now + 1.25 + idx * 0.08);
-          gainBell.exponentialRampToValueAtTime(0.001, now + 2.6);
+          oscBell.frequency.setValueAtTime(freq, now + 1.2 + idx * 0.06);
+          gainBell.gain.setValueAtTime(0.001, now + 1.2 + idx * 0.06);
+          gainBell.gain.linearRampToValueAtTime(0.16, now + 1.25 + idx * 0.06);
+          gainBell.gain.exponentialRampToValueAtTime(0.001, now + 2.8);
           oscBell.connect(gainBell);
           gainBell.connect(audioCtx.destination);
-          oscBell.start(now + 1.2 + idx * 0.08);
-          oscBell.stop(now + 2.6);
+          oscBell.start(now + 1.2 + idx * 0.06);
+          oscBell.stop(now + 2.8);
         });
       } catch (e) {}
     }
@@ -1154,6 +1806,136 @@
         gain.connect(audioCtx.destination);
         osc.start(now);
         osc.stop(now + 0.08);
+      } catch (e) {}
+    }
+
+    function playMusicBoxNote(freq, duration = 1.2, delayTime = 0) {
+      if (!audioCtx) return;
+      try {
+        const startTime = audioCtx.currentTime + delayTime;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, startTime);
+
+        gain.gain.setValueAtTime(0.001, startTime);
+        gain.gain.linearRampToValueAtTime(0.14, startTime + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(startTime);
+        osc.stop(startTime + duration);
+      } catch (e) {}
+    }
+
+    function playHappyBirthdayExactTwoRounds(onComplete) {
+      if (!audioCtx) return;
+      const N = {
+        G4: 392.00, A4: 440.00, B4: 493.88,
+        C5: 523.25, D5: 587.33, E5: 659.25, F5: 698.46, G5: 783.99, A5: 880.00
+      };
+
+      const singleRound = [
+        { note: N.G4, d: 0.35, gap: 0.4 },
+        { note: N.G4, d: 0.2, gap: 0.25 },
+        { note: N.A4, d: 0.6, gap: 0.65 },
+        { note: N.G4, d: 0.6, gap: 0.65 },
+        { note: N.C5, d: 0.6, gap: 0.65 },
+        { note: N.B4, d: 1.1, gap: 1.2 },
+
+        { note: N.G4, d: 0.35, gap: 0.4 },
+        { note: N.G4, d: 0.2, gap: 0.25 },
+        { note: N.A4, d: 0.6, gap: 0.65 },
+        { note: N.G4, d: 0.6, gap: 0.65 },
+        { note: N.D5, d: 0.6, gap: 0.65 },
+        { note: N.C5, d: 1.1, gap: 1.2 },
+
+        { note: N.G4, d: 0.35, gap: 0.4 },
+        { note: N.G4, d: 0.2, gap: 0.25 },
+        { note: N.G5, d: 0.6, gap: 0.65 },
+        { note: N.E5, d: 0.6, gap: 0.65 },
+        { note: N.C5, d: 0.6, gap: 0.65 },
+        { note: N.B4, d: 0.6, gap: 0.65 },
+        { note: N.A4, d: 1.1, gap: 1.15 },
+
+        { note: N.F5, d: 0.35, gap: 0.4 },
+        { note: N.F5, d: 0.2, gap: 0.25 },
+        { note: N.E5, d: 0.6, gap: 0.65 },
+        { note: N.C5, d: 0.6, gap: 0.65 },
+        { note: N.D5, d: 0.6, gap: 0.65 },
+        { note: N.C5, d: 1.6, gap: 1.8 }
+      ];
+
+      let totalDelay = 0;
+
+      singleRound.forEach(item => {
+        playMusicBoxNote(item.note, item.d + 0.4, totalDelay);
+        totalDelay += item.gap;
+      });
+
+      totalDelay += 1.0;
+
+      singleRound.forEach(item => {
+        playMusicBoxNote(item.note, item.d + 0.4, totalDelay);
+        totalDelay += item.gap;
+      });
+
+      setTimeout(() => {
+        if (onComplete) onComplete();
+      }, totalDelay * 1000 + 400);
+    }
+
+    function playWishSound() {
+      if (!audioCtx) return;
+      try {
+        const now = audioCtx.currentTime;
+        const notes = [523.25, 659.25, 783.99, 1046.50, 1318.51];
+        notes.forEach((freq, idx) => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, now + idx * 0.08);
+          gain.gain.setValueAtTime(0.001, now + idx * 0.08);
+          gain.linearRampToValueAtTime(0.12, now + idx * 0.08 + 0.03);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + idx * 0.08 + 0.9);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start(now + idx * 0.08);
+          osc.stop(now + idx * 0.08 + 0.9);
+        });
+      } catch (e) {}
+    }
+
+    function playBlowOutSound() {
+      if (!audioCtx) return;
+      try {
+        const now = audioCtx.currentTime;
+        const bufferSize = audioCtx.sampleRate * 0.6;
+        const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+          data[i] = Math.random() * 2 - 1;
+        }
+
+        const noise = audioCtx.createBufferSource();
+        noise.buffer = buffer;
+
+        const filter = audioCtx.createBiquadFilter();
+        filter.type = 'bandpass';
+        filter.frequency.setValueAtTime(320, now);
+        filter.Q.setValueAtTime(1.5, now);
+
+        const gain = audioCtx.createGain();
+        gain.gain.setValueAtTime(0.001, now);
+        gain.gain.linearRampToValueAtTime(0.2, now + 0.1);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.55);
+
+        noise.connect(filter);
+        filter.connect(gain);
+        gain.connect(audioCtx.destination);
+        noise.start(now);
+        noise.stop(now + 0.6);
       } catch (e) {}
     }
 
@@ -1179,6 +1961,17 @@
       }
     }
 
+    function triggerScreenFlash() {
+      const flash = document.getElementById("fullscreenGachaFlash");
+      if (!flash) return;
+      flash.classList.remove("fadeout");
+      flash.classList.add("active");
+      setTimeout(() => {
+        flash.classList.remove("active");
+        flash.classList.add("fadeout");
+      }, 120);
+    }
+
     const lines1 = [
       "致 女人：\n\n",
       "我想跳過規矩的開頭，先說想妳...（咳咳咳，錯頻了。）\n\n",
@@ -1190,23 +1983,23 @@
     ];
 
     const lines3_part1 = [
-      "就這樣，我成功拿到了聯絡方式，開啟了日後無止境「騷擾」妳的日常。"
+      "就這樣,我成功拿到了聯絡方式,開啟了日後無止境「騷擾」妳的日常。"
     ];
 
     const lines3_part2 = [
-      "原本寒冷又安靜得讓人犯睏的圖書館，因為妳變得很有溫度。\n\n",
-      "以前我連藍牙耳機都沒有，厚著臉皮跟妳借一邊耳機來聽、甚至……"
+      "原本寒冷又安靜得讓人犯睏的圖書館,因為妳變得很有溫度。\n\n",
+      "以前我連藍牙耳機都沒有,厚著臉皮跟妳借一邊耳機來聽、甚至……"
     ];
 
     const lines4 = [
-      "沒錯，甚至……點歌。\n\n",
-      "我們一起做過許多工作，像是上架、移架。\n\n",
-      "即便在不同樓層工作，也傳訊息互相通報長官動向："
+      "沒錯,甚至……點歌。\n\n",
+      "我們一起做過許多工作,像是上架、移架。\n\n",
+      "即便在不同樓層工作,也傳訊息互相通報長官動向："
     ];
 
     const lines5 = [
-      "後來才發現，我們重疊的何止是遊戲。\n\n",
-      "每一季追的動畫口味驚人的一致，奈何圖書館上班不便喧嘩，我們就約下班後吃晚餐聊天，順理成章發展成每週固定碰面的「飯搭子」："
+      "後來才發現,我們重疊的何止是遊戲。\n\n",
+      "每一季追的動畫口味驚人的一致,奈何圖書館上班不便喧嘩,我們就約下班後吃晚餐聊天,順理成章發展成每週固定碰面的「飯搭子」："
     ];
 
     const lines6_part1 = [
@@ -1215,15 +2008,15 @@
 
     const lines6_part2 = [
       "還有那些平常滑到、隨手丟給對方的幹片。\n\n",
-      "我們或許不會馬上秒回訊息，但只要有空，每一部都一定會看完，然後默默留下一個表情符號——「已讀章」，是屬於我們的日常默契："
+      "我們或許不會馬上秒回訊息,但只要有空,每一部都一定會看完,然後默默留下一個表情符號——「已讀章」,是屬於我們的日常默契："
     ];
 
     const lines7_part1 = [
-      "我談戀愛時，妳曾半開玩笑地問我："
+      "我談戀愛時,妳曾半開玩笑地問我："
     ];
 
     const lines7_part2 = [
-      "妳甚至覺得我不會再常找妳吃飯了，事實證明完全沒有。我很開心地把妳介紹給他，變成我們三個人一起逛街、看電影、到處吃美食的日常："
+      "妳甚至覺得我不會再常找妳吃飯了,事實證明完全沒有。我很開心地把妳介紹給他,變成我們三個人一起逛街、看電影、到處吃美食的日常："
     ];
 
     const lines8_part1 = [
@@ -1231,34 +2024,35 @@
     ];
 
     const lines8_part2 = [
-      "但女人，妳自己又何嘗不是我的「雙金」呢？"
+      "但女人,妳自己又何嘗不是我的「雙金」呢？"
     ];
 
     const lines8_part3 = [
-      "在機率這麼渺茫的人海裡，能同時抽到你們兩個，是我這輩子歐氣爆棚的證明。"
+      "在機率這麼渺茫的人海裡,能同時抽到你們兩個,是我這輩子歐氣爆棚的證明。"
     ];
 
     const lines9 = [
       "我知道妳是個多麼懶得出門、下班下課就歸心似箭想回家吸貓的人。\n\n",
-      "謝謝妳一次又一次，不嫌麻煩地從板橋大老遠跑來桃園陪我吃飯；謝謝妳即便外頭飄著雨，還是踩著腳踏車趕來赴約，甚至出現在我的畢業典禮上："
+      "謝謝妳一次又一次,不嫌麻煩地從板橋大老遠跑來桃園陪我吃飯；謝謝妳即便外頭飄著雨,還是踩著腳踏車趕來赴約,甚至出現在我的畢業典禮上："
     ];
 
     const lines10 = [
-      "從國小到大學，我從未擁有過一段能如此深刻、頻率又如此合拍的友誼。\n\n",
-      "不同系所、不同年級、來自不同城市的我們，偏偏在那個下班的走道上，因為一個小小的徽章拉開了序幕。\n\n",
-      "能遇見妳，真的是我大學生活裡最幸運的一件事："
+      "從國小到大學,我從未擁有過一段能如此深刻、頻率又如此合拍的友誼。\n\n",
+      "不同系所、不同年級、來自不同城市的我們,偏偏在那個下班的走道上,因為一個小小的徽章拉開了序幕。\n\n",
+      "能遇見妳,真的是我大學生活裡最幸運的一件事："
     ];
 
     const lines11 = [
-      "沒有準備什麼昂貴的厚禮，只有寫滿我們故事的網頁——"
+      "沒有準備什麼昂貴的厚禮,只有寫滿我們故事的網頁——"
     ];
 
+    /* 僅在最後一幕的標題帶有「徐霈綺」上方小註解 */
     const lines12_title = [
-      "21 歲的女人，祝妳生日快樂。"
+      "21 歲的<ruby>女人<rt>徐霈綺</rt></ruby>,祝妳生日快樂。"
     ];
 
     const lines12_body = [
-      "新的一歲，請務必健康、平安，而且每一天都要快樂。"
+      "新的一歲,請務必健康、平安,而且每一天都要快樂。"
     ];
 
     let currentSection = 1;
@@ -1269,8 +2063,19 @@
         if (lIdx < lines.length) {
           const line = lines[lIdx];
           if (cIdx < line.length) {
+            if (line.charAt(cIdx) === '<') {
+              const tagEnd = line.indexOf('>', cIdx);
+              if (tagEnd !== -1) {
+                const subTag = line.substring(cIdx, tagEnd + 1);
+                targetEl.innerHTML += subTag;
+                cIdx = tagEnd + 1;
+                addTimeout(step, 10);
+                return;
+              }
+            }
+
             const char = line.charAt(cIdx);
-            targetEl.textContent += char;
+            targetEl.innerHTML += char;
             cIdx++;
             if (char !== '\n' && char !== ' ') playKeySound();
 
@@ -1375,7 +2180,7 @@
       const t2 = document.getElementById("typewriter3_2");
       const c2 = document.getElementById("cursor3_2");
 
-      t1.textContent = ""; t2.textContent = "";
+      t1.innerHTML = ""; t2.innerHTML = "";
       c1.style.display = "inline-block";
       c2.style.display = "none";
 
@@ -1418,7 +2223,7 @@
     function triggerSection4Animation() {
       const targetEl = document.getElementById("typewriter4");
       const cursorEl = document.getElementById("cursor4");
-      targetEl.textContent = "";
+      targetEl.innerHTML = "";
       cursorEl.style.display = "inline-block";
 
       addTimeout(() => {
@@ -1476,7 +2281,7 @@
     function triggerSection5Animation() {
       const t = document.getElementById("typewriter5");
       const c = document.getElementById("cursor5");
-      t.textContent = "";
+      t.innerHTML = "";
       c.style.display = "inline-block";
 
       addTimeout(() => {
@@ -1527,7 +2332,7 @@
       const t2 = document.getElementById("typewriter6_2");
       const c2 = document.getElementById("cursor6_2");
 
-      t1.textContent = ""; t2.textContent = "";
+      t1.innerHTML = ""; t2.innerHTML = "";
       c1.style.display = "inline-block";
       c2.style.display = "none";
 
@@ -1599,7 +2404,7 @@
       const t2 = document.getElementById("typewriter7_2");
       const c2 = document.getElementById("cursor7_2");
 
-      t1.textContent = ""; t2.textContent = "";
+      t1.innerHTML = ""; t2.innerHTML = "";
       c1.style.display = "inline-block";
       c2.style.display = "none";
 
@@ -1634,6 +2439,9 @@
       }, 400);
     }
 
+    // ============================================================
+    // 第八幕排程：先純黑黑屏 ➔ 流星劃過夜空 ➔ 五星金色爆發 ➔ 臉部浮現 (100% 等寬)
+    // ============================================================
     function triggerSection8Animation() {
       const t1 = document.getElementById("typewriter8_1");
       const c1 = document.getElementById("cursor8_1");
@@ -1642,7 +2450,7 @@
       const t3 = document.getElementById("typewriter8_3");
       const c3 = document.getElementById("cursor8_3");
 
-      t1.textContent = ""; t2.textContent = ""; t3.textContent = "";
+      t1.innerHTML = ""; t2.innerHTML = ""; t3.innerHTML = "";
       c1.style.display = "inline-block";
       c2.style.display = "none";
       c3.style.display = "none";
@@ -1651,16 +2459,29 @@
         runTypewriter(lines8_part1, t1, c1, () => {
           addTimeout(() => {
             const wrap1 = document.getElementById("s8_photo_wrap_1");
+            const card1 = document.getElementById("s8_card_1");
+            const base1 = document.getElementById("s8_base_1");
             const face1 = document.getElementById("s8_face_1");
             const flash1 = document.getElementById("s8_flash_1");
+            const rays1 = document.getElementById("s8_rays_1");
+
             wrap1.classList.add("show");
-            playGachaSound();
             gentlyScrollIntoView(wrap1);
 
             addTimeout(() => {
+              playGachaSound();
+              base1.classList.add("visible");
+            }, 400);
+
+            addTimeout(() => {
+              triggerScreenFlash();
+              card1.classList.add("shaking");
               flash1.classList.add("flashing");
+              rays1.classList.add("spinning");
               face1.classList.add("revealed");
-            }, 1200);
+
+              setTimeout(() => card1.classList.remove("shaking"), 500);
+            }, 1600);
 
             addTimeout(() => {
               c2.style.display = "inline-block";
@@ -1668,16 +2489,29 @@
               runTypewriter(lines8_part2, t2, c2, () => {
                 addTimeout(() => {
                   const wrap2 = document.getElementById("s8_photo_wrap_2");
+                  const card2 = document.getElementById("s8_card_2");
+                  const base2 = document.getElementById("s8_base_2");
                   const face2 = document.getElementById("s8_face_2");
                   const flash2 = document.getElementById("s8_flash_2");
+                  const rays2 = document.getElementById("s8_rays_2");
+
                   wrap2.classList.add("show");
-                  playGachaSound();
                   gentlyScrollIntoView(wrap2);
 
                   addTimeout(() => {
+                    playGachaSound();
+                    base2.classList.add("visible");
+                  }, 400);
+
+                  addTimeout(() => {
+                    triggerScreenFlash();
+                    card2.classList.add("shaking");
                     flash2.classList.add("flashing");
+                    rays2.classList.add("spinning");
                     face2.classList.add("revealed");
-                  }, 1200);
+
+                    setTimeout(() => card2.classList.remove("shaking"), 500);
+                  }, 1600);
 
                   addTimeout(() => {
                     c3.style.display = "inline-block";
@@ -1685,11 +2519,11 @@
                     runTypewriter(lines8_part3, t3, c3, () => {
                       addTimeout(() => goToSection(9), 3200);
                     });
-                  }, 2800);
+                  }, 3200);
 
                 }, 800);
               });
-            }, 3000);
+            }, 3600);
 
           }, 600);
         });
@@ -1699,7 +2533,7 @@
     function triggerSection9Animation() {
       const t = document.getElementById("typewriter9");
       const c = document.getElementById("cursor9");
-      t.textContent = "";
+      t.innerHTML = "";
       c.style.display = "inline-block";
 
       addTimeout(() => {
@@ -1724,7 +2558,7 @@
     function triggerSection10Animation() {
       const t = document.getElementById("typewriter10");
       const c = document.getElementById("cursor10");
-      t.textContent = "";
+      t.innerHTML = "";
       c.style.display = "inline-block";
 
       addTimeout(() => {
@@ -1742,7 +2576,7 @@
     }
 
     // ============================================================
-    // 第十一幕：黑底 Canvas 渲染與防閃爍重繪
+    // 第十一幕：Storyboard PDF (每1秒自動翻閱一張)
     // ============================================================
     let pdfDocGlobal = null;
     let currentPdfPage = 1;
@@ -1758,7 +2592,6 @@
         canvas.height = viewport.height;
         canvas.width = viewport.width;
 
-        // 預先在畫布填滿黑底，杜絕透明/白底切換時的白光閃爍
         ctx.fillStyle = "#000000";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -1776,7 +2609,7 @@
     function triggerSection11Animation() {
       const t = document.getElementById("typewriter11");
       const c = document.getElementById("cursor11");
-      t.textContent = "";
+      t.innerHTML = "";
       c.style.display = "inline-block";
 
       addTimeout(() => {
@@ -1800,55 +2633,207 @@
                   renderPdfPage(currentPdfPage);
                 } else {
                   clearInterval(flipInterval);
-                  addTimeout(() => goToSection(12), 2500);
+                  addTimeout(() => goToSection(12), 1800);
                 }
-              }, 2000);
+              }, 1000);
             }).catch(() => {
               document.getElementById("pdfPageIndicator").textContent = "已為妳展開專屬回憶錄";
-              addTimeout(() => goToSection(12), 2500);
+              addTimeout(() => goToSection(12), 2000);
             });
           }
         });
       }, 400);
     }
 
+    // ============================================================
+    // 第十二幕：頂部標題、歌唱完出按鈕、許願與吹蠟燭
+    // ============================================================
+    let currentWishStep = 0;
+    let micStream = null;
+    let micAudioCtx = null;
+    let micAnalyser = null;
+    let isCandleExtinguished = false;
+
+    function launchGoldRain() {
+      if (!window.confetti) return;
+      const duration = 6 * 1000;
+      const end = Date.now() + duration;
+
+      (function frame() {
+        confetti({
+          particleCount: 4,
+          angle: 60,
+          spread: 60,
+          origin: { x: 0 },
+          colors: ['#ffd700', '#ffe066', '#ffffff', '#e6b800', '#9fc8e8']
+        });
+        confetti({
+          particleCount: 4,
+          angle: 120,
+          spread: 60,
+          origin: { x: 1 },
+          colors: ['#ffd700', '#ffe066', '#ffffff', '#e6b800', '#9fc8e8']
+        });
+
+        if (Date.now() < end) {
+          requestAnimationFrame(frame);
+        }
+      }());
+    }
+
     function triggerSection12Animation() {
       const tTitle = document.getElementById("typewriter12_title");
+      tTitle.innerHTML = "";
+
+      addTimeout(() => {
+        // 1. 打出大標題
+        runTypewriter(lines12_title, tTitle, null, () => {
+          // 2. 升起蛋糕舞台
+          addTimeout(() => {
+            const cakeStage = document.getElementById("giantCakeStage");
+            if (cakeStage) cakeStage.classList.add("show");
+
+            // 3. 演奏《生日快樂歌》中英文各一遍，唱完後才顯現許願按鈕
+            playHappyBirthdayExactTwoRounds(() => {
+              playWishSound();
+              const wishWrap = document.getElementById("wishIndicatorWrap");
+              const cakeActions = document.getElementById("cakeActions");
+
+              if (wishWrap) wishWrap.classList.add("show");
+              if (cakeActions) cakeActions.classList.add("show");
+            });
+
+          }, 400);
+        });
+      }, 500);
+    }
+
+    function makeWishStep() {
+      currentWishStep++;
+      playWishSound();
+
+      if (window.confetti) {
+        confetti({
+          particleCount: 30,
+          spread: 50,
+          origin: { y: 0.72 },
+          colors: ['#ffd700', '#fff3a8', '#ffffff']
+        });
+      }
+
+      const badge = document.getElementById(`wishBadge${currentWishStep}`);
+      if (badge) badge.classList.add("granted");
+
+      const wishBtn = document.getElementById("wishBtn");
+      const blowBtn = document.getElementById("blowBtn");
+      const blowHint = document.getElementById("blowHint");
+
+      if (currentWishStep === 1) {
+        wishBtn.textContent = "✦ 許下第 2 個願望 ✦";
+        blowHint.textContent = "第 1 個願望已悄悄送達星空";
+      } else if (currentWishStep === 2) {
+        wishBtn.textContent = "✦ 許下第 3 個願望 ✦";
+        // 第三個願望貼心提示彩蛋
+        blowHint.textContent = "第三個願望放心底，留給自己實現 🤫";
+      } else if (currentWishStep === 3) {
+        wishBtn.style.display = "none";
+        blowBtn.style.display = "inline-block";
+        blowHint.textContent = "三個願望已許滿！對著螢幕輕輕吹氣或點擊按鈕～";
+        setupMicrophoneBlowDetection();
+      }
+    }
+
+    function setupMicrophoneBlowDetection() {
+      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices.getUserMedia({ audio: true, video: false })
+          .then(stream => {
+            micStream = stream;
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            micAudioCtx = new AudioContext();
+            micAnalyser = micAudioCtx.createAnalyser();
+            micAnalyser.fftSize = 256;
+            const micSource = micAudioCtx.createMediaStreamSource(stream);
+            micSource.connect(micAnalyser);
+
+            const buffer = new Uint8Array(micAnalyser.frequencyBinCount);
+            function checkBlow() {
+              if (isCandleExtinguished) return;
+              micAnalyser.getByteFrequencyData(buffer);
+              let sum = 0;
+              for (let i = 0; i < buffer.length; i++) {
+                sum += buffer[i];
+              }
+              const averageVolume = sum / buffer.length;
+
+              if (averageVolume > 42) {
+                extinguishCandle(false);
+              } else {
+                requestAnimationFrame(checkBlow);
+              }
+            }
+            checkBlow();
+          })
+          .catch(() => {});
+      }
+    }
+
+    function extinguishCandle(fromClick = true) {
+      if (isCandleExtinguished) return;
+      isCandleExtinguished = true;
+
+      if (micStream) {
+        micStream.getTracks().forEach(track => track.stop());
+      }
+      if (micAudioCtx) {
+        micAudioCtx.close().catch(() => {});
+      }
+
+      playBlowOutSound();
+
+      // 雙燭火同時熄滅
+      const flame1 = document.getElementById("candleFlame1");
+      const flame2 = document.getElementById("candleFlame2");
+      const smoke = document.getElementById("candleSmoke");
+      if (flame1) flame1.classList.add("extinguished");
+      if (flame2) flame2.classList.add("extinguished");
+      if (smoke) smoke.classList.add("drifting");
+
+      // 隱藏蛋糕上的許願按鈕
+      const actions = document.getElementById("cakeActions");
+      if (actions) actions.style.display = "none";
+
+      // 讓上方三個願望的進度標籤優雅淡出
+      const wishWrap = document.getElementById("wishIndicatorWrap");
+      if (wishWrap) wishWrap.classList.add("fade-out");
+
+      launchGoldRain();
+      setTimeout(() => {
+        confetti({ particleCount: 160, spread: 100, origin: { y: 0.55 } });
+      }, 300);
+
+      // 在標題下方平滑浮現溫馨寄語與按鈕
+      const postMsgWrap = document.getElementById("postBlowMsgWrap");
+      if (postMsgWrap) postMsgWrap.classList.add("active");
+
       const tBody = document.getElementById("typewriter12_body");
-      const c = document.getElementById("cursor12");
+      const c12 = document.getElementById("cursor12");
       const credits = document.getElementById("footerCredits");
       const replayBtn = document.getElementById("replayBtn");
 
-      tTitle.textContent = "";
-      tBody.textContent = "";
-      c.style.display = "inline-block";
+      tBody.innerHTML = "";
+      c12.style.display = "inline-block";
 
       addTimeout(() => {
-        runTypewriter(lines12_title, tTitle, null, () => {
-          if (window.confetti) {
-            confetti({
-              particleCount: 120,
-              spread: 80,
-              origin: { y: 0.6 }
-            });
-            setTimeout(() => {
-              confetti({ particleCount: 80, angle: 60, spread: 55, origin: { x: 0 } });
-              confetti({ particleCount: 80, angle: 120, spread: 55, origin: { x: 1 } });
-            }, 400);
-          }
-
+        runTypewriter(lines12_body, tBody, c12, () => {
           addTimeout(() => {
-            runTypewriter(lines12_body, tBody, c, () => {
-              addTimeout(() => {
-                if (credits) credits.classList.add("show");
-                addTimeout(() => {
-                  if (replayBtn) replayBtn.classList.add("show");
-                }, 600);
-              }, 800);
-            });
+            if (credits) credits.classList.add("show");
+            addTimeout(() => {
+              if (replayBtn) replayBtn.classList.add("show");
+              gentlyScrollIntoView(replayBtn);
+            }, 600);
           }, 800);
         });
-      }, 500);
+      }, 600);
     }
 
     function replayExperience() {
@@ -1867,7 +2852,7 @@
 
         if (currentSection === 1) {
           document.getElementById("startOverlay").style.display = "none";
-          document.getElementById("typewriter1").textContent = lines1.join("");
+          document.getElementById("typewriter1").innerHTML = lines1.join("");
           document.getElementById("cursor1").style.display = "none";
           goToSection(2);
         } else if (currentSection === 2) {
@@ -1878,9 +2863,9 @@
           });
           goToSection(3);
         } else if (currentSection === 3) {
-          document.getElementById("typewriter3_1").textContent = lines3_part1.join("");
+          document.getElementById("typewriter3_1").innerHTML = lines3_part1.join("");
           document.getElementById("cursor3_1").style.display = "none";
-          document.getElementById("typewriter3_2").textContent = lines3_part2.join("");
+          document.getElementById("typewriter3_2").innerHTML = lines3_part2.join("");
           document.getElementById("cursor3_2").style.display = "none";
           ["s3_poke1", "s3_poke2", "s3_poke3", "s3_poke4", "s3_heart", "s3_msg1", "s3_msg2"].forEach(id => {
             const el = document.getElementById(id);
@@ -1888,7 +2873,7 @@
           });
           goToSection(4);
         } else if (currentSection === 4) {
-          document.getElementById("typewriter4").textContent = lines4.join("");
+          document.getElementById("typewriter4").innerHTML = lines4.join("");
           document.getElementById("cursor4").style.display = "none";
           document.getElementById("s4_text_insert").style.opacity = "1";
           document.getElementById("s4_time").classList.add("show");
@@ -1900,7 +2885,7 @@
         } else if (currentSection === 5) {
           const t5 = document.getElementById("typewriter5");
           const c5 = document.getElementById("cursor5");
-          if (t5) t5.textContent = lines5.join("");
+          if (t5) t5.innerHTML = lines5.join("");
           if (c5) c5.style.display = "none";
           [
             "s5_msg1", "s5_msg2", "s5_msg3", "s5_msg4", "s5_msg5",
@@ -1911,9 +2896,9 @@
           });
           goToSection(6);
         } else if (currentSection === 6) {
-          document.getElementById("typewriter6_1").textContent = lines6_part1.join("");
+          document.getElementById("typewriter6_1").innerHTML = lines6_part1.join("");
           document.getElementById("cursor6_1").style.display = "none";
-          document.getElementById("typewriter6_2").textContent = lines6_part2.join("");
+          document.getElementById("typewriter6_2").innerHTML = lines6_part2.join("");
           document.getElementById("cursor6_2").style.display = "none";
           [
             "s6_album_aqua", "s6_album_meme",
@@ -1925,9 +2910,9 @@
           });
           goToSection(7);
         } else if (currentSection === 7) {
-          document.getElementById("typewriter7_1").textContent = lines7_part1.join("");
+          document.getElementById("typewriter7_1").innerHTML = lines7_part1.join("");
           document.getElementById("cursor7_1").style.display = "none";
-          document.getElementById("typewriter7_2").textContent = lines7_part2.join("");
+          document.getElementById("typewriter7_2").innerHTML = lines7_part2.join("");
           document.getElementById("cursor7_2").style.display = "none";
           ["s7_msg1", "s7_msg2", "s7_msg3", "s7_msg4", "s7_photo_wrap"].forEach(id => {
             const el = document.getElementById(id);
@@ -1935,15 +2920,19 @@
           });
           goToSection(8);
         } else if (currentSection === 8) {
-          document.getElementById("typewriter8_1").textContent = lines8_part1.join("");
+          document.getElementById("typewriter8_1").innerHTML = lines8_part1.join("");
           document.getElementById("cursor8_1").style.display = "none";
-          document.getElementById("typewriter8_2").textContent = lines8_part2.join("");
+          document.getElementById("typewriter8_2").innerHTML = lines8_part2.join("");
           document.getElementById("cursor8_2").style.display = "none";
-          document.getElementById("typewriter8_3").textContent = lines8_part3.join("");
+          document.getElementById("typewriter8_3").innerHTML = lines8_part3.join("");
           document.getElementById("cursor8_3").style.display = "none";
           ["s8_photo_wrap_1", "s8_photo_wrap_2"].forEach(id => {
             const el = document.getElementById(id);
             if (el) el.classList.add("show");
+          });
+          ["s8_base_1", "s8_base_2"].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.classList.add("visible");
           });
           ["s8_face_1", "s8_face_2"].forEach(id => {
             const el = document.getElementById(id);
@@ -1951,7 +2940,7 @@
           });
           goToSection(9);
         } else if (currentSection === 9) {
-          document.getElementById("typewriter9").textContent = lines9.join("");
+          document.getElementById("typewriter9").innerHTML = lines9.join("");
           document.getElementById("cursor9").style.display = "none";
           const el = document.getElementById("s9_photo_wrap");
           const gradImg = document.getElementById("s9_grad_img");
@@ -1959,28 +2948,30 @@
           if (gradImg) gradImg.classList.add("zoomed");
           goToSection(10);
         } else if (currentSection === 10) {
-          document.getElementById("typewriter10").textContent = lines10.join("");
+          document.getElementById("typewriter10").innerHTML = lines10.join("");
           document.getElementById("cursor10").style.display = "none";
           const el = document.getElementById("s10_photo_wrap");
           if (el) el.classList.add("show");
           goToSection(11);
         } else if (currentSection === 11) {
-          document.getElementById("typewriter11").textContent = lines11.join("");
+          document.getElementById("typewriter11").innerHTML = lines11.join("");
           document.getElementById("cursor11").style.display = "none";
           const box = document.getElementById("s11_pdf_box");
           if (box) box.classList.add("show");
           goToSection(12);
         } else if (currentSection === 12) {
-          document.getElementById("typewriter12_title").textContent = lines12_title.join("");
-          document.getElementById("typewriter12_body").textContent = lines12_body.join("");
+          document.getElementById("typewriter12_title").innerHTML = lines12_title.join("");
+          document.getElementById("typewriter12_body").innerHTML = lines12_body.join("");
           document.getElementById("cursor12").style.display = "none";
+          const wishWrap = document.getElementById("wishIndicatorWrap");
+          if (wishWrap) wishWrap.classList.add("fade-out");
+          const postMsgWrap = document.getElementById("postBlowMsgWrap");
+          if (postMsgWrap) postMsgWrap.classList.add("active");
           const credits = document.getElementById("footerCredits");
           if (credits) credits.classList.add("show");
           const replayBtn = document.getElementById("replayBtn");
           if (replayBtn) replayBtn.classList.add("show");
-          if (window.confetti) {
-            confetti({ particleCount: 150, spread: 100, origin: { y: 0.6 } });
-          }
+          launchGoldRain();
         }
       }
     });
