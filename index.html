@@ -528,7 +528,6 @@
       border: 1px solid #6b2d2d;
     }
 
-    /* 水平置中外框：寬度設為 100% 貼齊聊天版心 */
     .center-photo-wrap {
       display: flex;
       justify-content: center;
@@ -545,7 +544,6 @@
       transform: translateY(0);
     }
 
-    /* 圖片寬度與聊天室完全齊平 */
     .featured-photo {
       width: 100%;
       border-radius: 14px;
@@ -619,7 +617,6 @@
       100% { opacity: 0; }
     }
 
-    /* 畢業合照外框：設為 100% 寬度與聊天室完全齊平 */
     .grad-photo-container {
       position: relative;
       width: 100%;
@@ -645,7 +642,7 @@
       max-width: 480px;
       width: 100%;
       margin: 18px auto;
-      background: #151518;
+      background: #0d0d0f;
       border: 1px solid rgba(255, 255, 255, 0.2);
       border-radius: 16px;
       padding: 10px;
@@ -663,11 +660,12 @@
       transform: translateY(0);
     }
 
+    /* 關鍵：Canvas 設為純黑底，杜絕白光閃爍 */
     #pdfCanvas {
       width: 100%;
       height: auto;
       border-radius: 10px;
-      background-color: #ffffff;
+      background-color: #000000;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
       display: block;
     }
@@ -936,7 +934,6 @@
     </div>
   </section>
 
-  <!-- 第七幕：MeAndYouAndYourFriend.jpg 齊平聊天室寬度 -->
   <section class="screen-section" id="section7">
     <div class="container">
       <div>
@@ -960,7 +957,6 @@
     </div>
   </section>
 
-  <!-- 第八幕：流星金色抽卡 (Lottery.png) ➔ 臉部直接現身 (Lottery_1.png / Lottery_2.png) -->
   <section class="screen-section" id="section8">
     <div class="container">
       <div>
@@ -993,7 +989,6 @@
     </div>
   </section>
 
-  <!-- 第九幕：畢業合照齊平聊天室寬度，偏右特寫放大 75% -->
   <section class="screen-section" id="section9">
     <div class="container">
       <div>
@@ -1008,7 +1003,6 @@
     </div>
   </section>
 
-  <!-- 第十幕：BestFriend.png 齊平聊天室寬度 -->
   <section class="screen-section" id="section10">
     <div class="container">
       <div>
@@ -1747,6 +1741,9 @@
       }, 400);
     }
 
+    // ============================================================
+    // 第十一幕：黑底 Canvas 渲染與防閃爍重繪
+    // ============================================================
     let pdfDocGlobal = null;
     let currentPdfPage = 1;
     let totalPdfPages = 1;
@@ -1757,8 +1754,13 @@
         const canvas = document.getElementById("pdfCanvas");
         const ctx = canvas.getContext("2d");
         const viewport = page.getViewport({ scale: 1.5 });
+
         canvas.height = viewport.height;
         canvas.width = viewport.width;
+
+        // 預先在畫布填滿黑底，杜絕透明/白底切換時的白光閃爍
+        ctx.fillStyle = "#000000";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
 
         const renderContext = {
           canvasContext: ctx,
